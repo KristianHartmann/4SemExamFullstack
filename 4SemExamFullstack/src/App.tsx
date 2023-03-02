@@ -11,6 +11,7 @@ function App() {
   return (
     <div className="App">
       <AppHeader title={headerProps.title} />
+      <div className="content"></div>
       <Footer />
     </div>
   );

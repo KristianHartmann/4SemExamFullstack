@@ -4,6 +4,9 @@ footer {
   align-items: center;
   padding: 1rem;
   font-size: 0.8rem;
+  bottom: 0;
+  background-color: #253f4e;
+  color: white;
 }
 
 nav ul {

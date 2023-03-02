@@ -11,7 +11,7 @@ const Header: React.FC<AppHeaderProps> = React.memo(({ title }) => {
     <div className="Header">
       <div className="HeaderLogo">
         <a href="#home">
-          <h2>{title}</h2>
+          {/* <h2>{title}</h2> */}
           <img src={logo} alt="Logo" className="logo" />
         </a>
       </div>
