@@ -1,0 +1,50 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding: 0 20px;
+  background-color: #f2f2f2;
+}
+
+.logo {
+  height: 60px;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.login-button {
+  background-color: #8b5d2e;
+  color: #fff;
+  border-color: #8b5d2e;
+}
+
+.modal-dialog {
+  margin: auto;
+  width: fit-content;
+}
+
+.modal-content {
+  background-color: #f5deb3;
+  color: #fff;
+  border: none;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-title {
+  color: #fff;
+}
+
+.form-group label {
+  color: #fff;
+}
+
+button.login-btn {
+  background-color: #d8b98c;
+  color: #ffffff;
+}
