@@ -1,13 +1,15 @@
-import { useState } from "react";
-import "./App.css";
-import Header from "./Header";
+import "./styles/App.css";
+import AppHeader, { AppHeaderProps } from "./components/AppHeader";
+
+// build an instance of our AppHeaderProps to pass to the AppHeader component
+const headerProps: AppHeaderProps = {
+  title: "Cooking with Monkeys",
+};
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div className="App">
-      <Header />
+      <AppHeader title={headerProps.title} />
     </div>
   );
 }
