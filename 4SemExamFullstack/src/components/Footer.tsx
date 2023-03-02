@@ -12,17 +12,26 @@ const Footer: React.FC = () => {
       <nav>
         <ul>
           <li>
-            <a href="https://www.facebook.com/">
+            <a
+              href="https://www.pinterest.dk/pin/525302744006741868/"
+              target="_blank"
+            >
               <img src={facebookLogo} alt="Facebook" />
             </a>
           </li>
           <li>
-            <a href="https://www.twitter.com/">
+            <a
+              href="https://www.pinterest.dk/pin/525302744006741868/"
+              target="_blank"
+            >
               <img src={twitterLogo} alt="Twitter" />
             </a>
           </li>
           <li>
-            <a href="https://www.instagram.com/">
+            <a
+              href="https://www.pinterest.dk/pin/525302744006741868/"
+              target="_blank"
+            >
               <img src={instagramLogo} alt="Instagram" />
             </a>
           </li>
