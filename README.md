@@ -229,6 +229,7 @@ Shopping list
 Shopping list item
 Navigation bar
 Footer
+Header
 Error boundary
 Loading spinner
 //Modal
