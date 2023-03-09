@@ -1,18 +1,25 @@
-import "./styles/App.css";
-import AppHeader, { AppHeaderProps } from "./components/AppHeader";
 import Footer from "./components/Footer";
-
-// build an instance of our AppHeaderProps to pass to the AppHeader component
-const headerProps: AppHeaderProps = {
-  title: "Cooking with Monkeys",
-};
+import Navbar from "./components/Navbar";
+import styles from "./style";
+import Hero from "./components/Hero";
 
 function App() {
   return (
-    <div className="App">
-      <AppHeader title={headerProps.title} />
-      <div className="content"></div>
-      <Footer />
+    <div className="bg-primary w-full overflow-hidden">
+      <div className={`${styles.paddingX} ${styles.flexCenter}`}>
+        <div className={`${styles.boxWidth}`}>
+          <Navbar />
+        </div>
+      </div>
+
+      <div className={`bg-primary ${styles.flexStart}`}>
+        <div className={`${styles.boxWidth}}`}>
+          <Hero />
+        </div>
+      </div>
+      <div className={`bg-primary ${styles.flexStart} ${styles.paddingX}`}>
+        <div className={`${styles.boxWidth}}`}>{/* <Footer /> */}</div>
+      </div>
     </div>
   );
 }
