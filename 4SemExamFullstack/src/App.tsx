@@ -1,19 +1,14 @@
-import "./styles/App.css";
-import AppHeader, { AppHeaderProps } from "./components/AppHeader";
 import Footer from "./components/Footer";
-import Homepage from "./components/Homepage";
-
-// build an instance of our AppHeaderProps to pass to the AppHeader component
-const headerProps: AppHeaderProps = {
-  title: "Cooking with Monkeys",
-};
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Content from "./components/Content";
 
 function App() {
   return (
-    <div className="App">
-      <AppHeader title={headerProps.title} />
-      <Homepage />
-      <div className="content"></div>
+    <div className="flex flex-col w-screen h-screen bg-background">
+      <Navbar />
+      <Hero />
+      <Content />
       <Footer />
     </div>
   );

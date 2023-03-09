@@ -4,49 +4,32 @@ import facebookLogo from "../images/facebooklogo.png";
 import twitterLogo from "../images/twitterlogo.png";
 import companyLogo from "../images/monkeyLogo.png";
 
-import "../styles/Footer.css";
-
 const Footer: React.FC = () => {
   return (
-    <footer>
-      <nav>
-        <ul>
-          <li>
-            <a
-              href="https://www.pinterest.dk/pin/525302744006741868/"
-              target="_blank"
-            >
-              <img src={facebookLogo} alt="Facebook" />
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://www.pinterest.dk/pin/525302744006741868/"
-              target="_blank"
-            >
-              <img src={twitterLogo} alt="Twitter" />
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://www.pinterest.dk/pin/525302744006741868/"
-              target="_blank"
-            >
-              <img src={instagramLogo} alt="Instagram" />
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div className="contact-info">
+    <footer className="flex justify-between text-white items-center w-full bg-footer sm:px-16 px-6">
+      <div className="flex h-10 gap-6">
+        <a href="https://www.facebook.com/">
+          <img className="h-full" src={facebookLogo} alt="Facebook" />
+        </a>
+
+        <a href="https://www.twitter.com/">
+          <img className="h-full" src={twitterLogo} alt="Twitter" />
+        </a>
+
+        <a href="https://www.instagram.com/">
+          <img className="h-full" src={instagramLogo} alt="Instagram" />
+        </a>
+      </div>
+      <div className="py-2">
         <div>Email: contact@CookingWithMonkeys.dk</div>
         <div>Phone: 12344321</div>
         <div>Address: 123 Monkey St, Denmark</div>
       </div>
-      <div className="company-logo">
-        <img src={companyLogo} alt="Company Logo" />
-      </div>
-      <div className="copyright">
-        &copy; {new Date().getFullYear()} Cooking With Monkeys
+      <div className="h-10 flex">
+        <img className="h-full" src={companyLogo} alt="Company Logo" />
+        <div className="copyright">
+          &copy; {new Date().getFullYear()} Cooking With Monkeys
+        </div>
       </div>
     </footer>
   );
