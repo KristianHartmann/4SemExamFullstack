@@ -1,24 +1,23 @@
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import styles from "./style";
 import Hero from "./components/Hero";
 
 function App() {
   return (
-    <div className="bg-primary w-full overflow-hidden">
-      <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-        <div className={`${styles.boxWidth}`}>
+    <div className="bg-primary w-screen h-full overflow-hidden">
+      <div className="sm:px-16 px-6 flex justify-center items-center">
+        <div className="xl:max-w-[1280px] w-full">
           <Navbar />
         </div>
       </div>
 
-      <div className={`bg-primary ${styles.flexStart}`}>
-        <div className={`${styles.boxWidth}}`}>
+      <div className="bg-secondary flex justify-center items-center">
+        <div className="xl:max-w-[1280px] w-full">
           <Hero />
         </div>
       </div>
-      <div className={`bg-primary ${styles.flexStart} ${styles.paddingX}`}>
-        <div className={`${styles.boxWidth}}`}>{/* <Footer /> */}</div>
+      <div className="bg-primary flex justify-center items-start sm:px-16 px-6">
+        <div className="xl:max-w-[1280px] w-full">{/* <Footer /> */}</div>
       </div>
     </div>
   );
