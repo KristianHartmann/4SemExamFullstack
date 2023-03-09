@@ -11,13 +11,14 @@ function App() {
         </div>
       </div>
 
-      <div className="bg-secondary flex justify-center items-center">
-        <div className="xl:max-w-[1280px] w-full">
-          <Hero />
-        </div>
+      <div className="bg-secondary flex justify-center">
+        <Hero />
       </div>
+
       <div className="bg-primary flex justify-center items-start sm:px-16 px-6">
-        <div className="xl:max-w-[1280px] w-full">{/* <Footer /> */}</div>
+        <div className="xl:max-w-[1280px] w-full">
+          <Footer />
+        </div>
       </div>
     </div>
   );

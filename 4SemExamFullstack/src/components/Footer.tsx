@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
   return (
     <footer>
       <nav>
-        <ul>
+        <ul className="w-8 h-7">
           <li>
             <a href="https://www.facebook.com/">
               <img src={facebookLogo} alt="Facebook" />
@@ -26,12 +26,12 @@ const Footer: React.FC = () => {
           </li>
         </ul>
       </nav>
-      <div className="contact-info">
+      <div>
         <div>Email: contact@CookingWithMonkeys.dk</div>
         <div>Phone: 12344321</div>
         <div>Address: 123 Monkey St, Denmark</div>
       </div>
-      <div className="company-logo">
+      <div className="w-8 h-7">
         <img src={companyLogo} alt="Company Logo" />
       </div>
       <div className="copyright">
