@@ -7,20 +7,14 @@ module.exports = {
       colors: {
         primary: "#33b1e6",
         secondary: "#00f6ff",
-        dimWhite: "rgba(255, 255, 255, 0.7)",
-        dimBlue: "rgba(9, 151, 124, 0.1)",
+        tertiary: "#0175a3",
+        background: "#8c8c73",
+        footer: "#253f4e",
+        nav: "#253f4e",
       },
-      fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
+      fontSize: {
+        "1.5xl": "1.5rem",
       },
-    },
-    screens: {
-      xs: "480px",
-      ss: "620px",
-      sm: "768px",
-      md: "1060px",
-      lg: "1200px",
-      xl: "1700px",
     },
   },
   plugins: [],
