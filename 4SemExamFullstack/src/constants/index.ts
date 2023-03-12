@@ -1,19 +1,16 @@
 export const navLinks = [
   {
-    id: "home",
-    title: "Home",
-  },
-  {
     id: "recipes",
     title: "Recipes",
+  },
+
+  {
+    id: "shoppinglist",
+    title: "Shoppinglist",
   },
   {
     id: "login",
     title: "Login",
-  },
-  {
-    id: "shoppinglist",
-    title: "Shoppinglist",
   },
 ];
 export const DualHeroBannerText = [
