@@ -17,6 +17,9 @@ export const DualHeroBannerText = [
   {
     id: "FrontBannerText",
     heading: "Velkommen!",
-    text: "Hej og velkommen til Cooking with monkeys. Her kan du finde opskrifter på alt fra lækre desserter til lækre retter. Vi har også en indkøbsliste, så du kan holde styr på hvad du mangler til din næste madlavning. Vi håber du vil nyde vores hjemmeside og at du finder inspiration til din næste madlavning.",
+    textOne:
+      "Hej og velkommen til Cooking with monkeys. Her kan du finde opskrifter.",
+    textTwo:
+      "Vi har også en indkøbsliste, så du kan holde styr på hvad du mangler til din næste madlavning.",
   },
 ];
