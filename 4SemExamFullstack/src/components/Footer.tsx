@@ -25,8 +25,7 @@ const Footer: React.FC = () => {
         <div>Phone: 12344321</div>
         <div>Address: 123 Monkey St, Denmark</div>
       </div>
-      <div className="h-10 flex">
-        <img className="h-full" src={companyLogo} alt="Company Logo" />
+      <div className="h-10 flex items-center">
         <div className="copyright">
           &copy; {new Date().getFullYear()} Cooking With Monkeys
         </div>

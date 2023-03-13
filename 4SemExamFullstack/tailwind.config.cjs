@@ -15,6 +15,9 @@ module.exports = {
       fontSize: {
         "1.5xl": "1.5rem",
       },
+      button: {
+        primary: "bg-primary text-white font-bold py-2 px-4 rounded-full",
+      },
     },
   },
   plugins: [],

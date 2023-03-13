@@ -3,7 +3,7 @@ import { useState } from "react";
 import { navLinks } from "../constants";
 import monkeyLogo from "../images/monkeyLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Navbar.css";
 
 function Navbar() {
@@ -22,7 +22,18 @@ function Navbar() {
             className={`font-normal cursor-pointer text-[16px] ${
               index === navLinks.length - 1 ? "mr-0" : "mr-10"
             }`}>
-            <a href={`#${nav.id}`}>{nav.title}</a>
+            {nav.title === "Shoppinglist" ? (
+              <a href={`#${nav.id}`}>
+                {" "}
+                <FontAwesomeIcon
+                  icon={faShoppingCart}
+                  className="w-28px h-28px object-contain"
+                  onClick={() => setToggle((prev) => !prev)}
+                />
+              </a>
+            ) : (
+              <a href={`#${nav.id}`}>{nav.title}</a>
+            )}
           </li>
         ))}
       </ul>
