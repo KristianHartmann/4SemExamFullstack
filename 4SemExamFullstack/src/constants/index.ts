@@ -1,6 +1,21 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
+export const dummyShoppingList = [
+  { id: 1, name: "Milk", quantity: "1 quart" },
+  { id: 2, name: "Eggs", quantity: "1 dozen" },
+  { id: 3, name: "Flour", quantity: "2 cups" },
+  { id: 4, name: "Sugar", quantity: "1 cup" },
+  { id: 5, name: "Butter", quantity: "1 stick" },
+];
+
+export interface ShoppingList {
+  id: number;
+  name: string;
+  quantity?: string;
+  // add any other fields you need here
+}
+
 export const navLinks = [
   {
     id: "recipes",

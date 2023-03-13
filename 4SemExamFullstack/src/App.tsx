@@ -2,6 +2,8 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Content from "./components/Content";
+import ShoppingListPage from "./components/ShoppingListPage";
+import { dummyShoppingList } from "./constants/index";
 
 function App() {
   return (
@@ -9,6 +11,7 @@ function App() {
       <Navbar />
       <Hero />
       <Content />
+      <ShoppingListPage shoppingList={dummyShoppingList} />
       <Footer />
     </div>
   );

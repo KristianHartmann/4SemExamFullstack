@@ -6,7 +6,8 @@ function Hero() {
   return (
     <section
       id="FrontBanner"
-      className="bg-tertiary flex flex-grow text-white font-serif">
+      className="bg-tertiary flex flex-grow text-white font-serif"
+    >
       <div className="flex flex-col w-1/2 items-center flex-grow gap-14">
         <div className=" heading1 flex justify-center pt-3">
           {
