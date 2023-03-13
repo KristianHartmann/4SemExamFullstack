@@ -5,12 +5,12 @@ import SearchRecipes from "./components/SearchRecipes";
 import SavedRecipes from "./components/SavedRecipes";
 
 import Login from "./components/Login";
-import {Router, BrowserRouter, Routes, Route} from "react-router-dom";
+import {Router, BrowserRouter, Routes, Route, Link} from "react-router-dom";
 function App() {
   return (
     <div className="flex flex-col w-screen h-screen ">
-            <Navbar />
-      <BrowserRouter>
+         <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path ="/" element={<HomePageContent />} />
         <Route path ="searchrecipes" element={<SearchRecipes />} />
@@ -19,8 +19,8 @@ function App() {
         <Route path ="login" element={<Login />} />
       </Routes>
      
-      </BrowserRouter>
       <Footer />  
+      </BrowserRouter>
 
     </div>
   );

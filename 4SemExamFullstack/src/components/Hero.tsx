@@ -1,6 +1,8 @@
 import React from "react";
 import DualHero from "../images/DualHeroImage.png";
 import { DualHeroBannerText } from "../constants";
+import { Link } from 'react-router-dom';
+
 
 function Hero() {
   return (
@@ -27,11 +29,11 @@ function Hero() {
           }
         </div>
         <div>
-          <a href="recipes">
+          <Link to="recipes">
             <button className="btn-primary">
               See the coolest recipes here!
             </button>
-          </a>
+          </Link>
         </div>
       </div>
       <div className="flex flex-col flex-grow w-1/2 h-full">

@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { navLinks } from "../constants";
 import monkeyLogo from "../images/monkeyLogo.png";
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -16,9 +17,7 @@ const Navbar = () => {
     <section id="navbar">
       <div className="text-white flex justify-between sm:px-16 px-6 items-center bg-nav navbar w-full">
         <div className="flex gap-10 h-16 ml-32">
-          <a href="/">
-            <img className="h-full" alt="MonkeyLogo" src={monkeyLogo}></img>
-          </a>
+        <Link to='/'><img className="h-full" alt="MonkeyLogo" src={monkeyLogo}></img></Link>
         </div>
         <ul className="list-none sm:flex hidden justify-end items-center flex-1">
           {navLinks.map((nav, index) => (
@@ -28,21 +27,21 @@ const Navbar = () => {
                 index === navLinks.length - 1 ? "mr-0" : "mr-10"
               }`}>
               {nav.title === "Shoppinglist" ? (
-                <a href={`${nav.id}`}>
+                <Link to={`${nav.id}`}>
                   <FontAwesomeIcon
                     icon={faShoppingCart}
                     className="w-28px h-28px object-contain"
                   />
-                </a>
+                </Link>
               ) : nav.title === "SearchRecipes" ? (
-                <a href={`${nav.id}`}>
+                <Link to={`${nav.id}`}>
                   <FontAwesomeIcon
                     icon={faSearch}
                     className="w-28px h-28px object-contain"
                   />
-                </a>
+                </Link>
               ) : (
-                <a href={`${nav.id}`}>{nav.title}</a>
+                <Link to={`${nav.id}`}>{nav.title}</Link>
               )}
             </li>
           ))}
