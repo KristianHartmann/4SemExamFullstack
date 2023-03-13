@@ -2,7 +2,6 @@ import React from "react";
 import instagramLogo from "../images/instagramlogo.png";
 import facebookLogo from "../images/facebooklogo.png";
 import twitterLogo from "../images/twitterlogo.png";
-import companyLogo from "../images/monkeyLogo.png";
 
 const Footer: React.FC = () => {
   return (
