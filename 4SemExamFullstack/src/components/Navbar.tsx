@@ -3,13 +3,17 @@ import { useState } from "react";
 import { navLinks } from "../constants";
 import monkeyLogo from "../images/monkeyLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faSearch,
+  faShoppingCart,
+} from "@fortawesome/free-solid-svg-icons";
 import "../styles/Navbar.css";
 
 function Navbar() {
   const [toggle, setToggle] = useState(false);
   return (
-    <section id="home">
+    <section id="navbar">
       <div className="text-white flex justify-between sm:px-16 px-6 items-center bg-nav navbar w-full">
         <div className="flex gap-10 h-16">
           <a href="#home">
@@ -25,9 +29,15 @@ function Navbar() {
               }`}>
               {nav.title === "Shoppinglist" ? (
                 <a href={`#${nav.id}`}>
-                  {" "}
                   <FontAwesomeIcon
                     icon={faShoppingCart}
+                    className="w-28px h-28px object-contain"
+                  />
+                </a>
+              ) : nav.title === "SearchRecipes" ? (
+                <a href={`#${nav.id}`}>
+                  <FontAwesomeIcon
+                    icon={faSearch}
                     className="w-28px h-28px object-contain"
                   />
                 </a>

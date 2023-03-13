@@ -1,14 +1,15 @@
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Content from "./components/Content";
+import HomePageContent from "./components/HomepageContent";
+import SearchRecipes from "./components/SearchRecipes";
 
 function App() {
   return (
-    <div className="flex flex-col w-screen h-screen bg-background">
+    <div className="flex flex-col w-screen h-screen ">
       <Navbar />
-      <Hero />
-      <Content />
+      <HomePageContent />
+      <SearchRecipes />
+
       <Footer />
     </div>
   );
