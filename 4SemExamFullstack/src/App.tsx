@@ -8,21 +8,25 @@ import Login from "./components/Login";
 import {Router, BrowserRouter, Routes, Route, Link} from "react-router-dom";
 function App() {
   return (
-    <div className="flex flex-col w-screen h-screen ">
-         <BrowserRouter>
-      <Navbar />
-      <Routes>
+    <BrowserRouter>
+
+    <div className="flex flex-col w-screen h-screen min-h-screen ">
+    <Navbar />
+    <div className="flex-grow overflow-auto bg-background">
+    <Routes>
         <Route path ="/" element={<HomePageContent />} />
         <Route path ="searchrecipes" element={<SearchRecipes />} />
         <Route path ="savedrecipes" element={<SavedRecipes />} />
         <Route path ="shoppinglist" element={<SearchRecipes />} />
         <Route path ="login" element={<Login />} />
       </Routes>
-     
+    </div>
       <Footer />  
-      </BrowserRouter>
 
     </div>
+    
+    </BrowserRouter>
+
   );
 }
 

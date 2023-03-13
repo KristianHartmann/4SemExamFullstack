@@ -29,9 +29,12 @@ function Hero() {
           }
         </div>
         <div>
-          <Link to="recipes">
+          <Link to="searchrecipes">
             <button className="btn-primary">
-              See the coolest recipes here!
+            {
+            DualHeroBannerText.find((text) => text.id === "FrontBannerText")
+              ?.linkText
+          }
             </button>
           </Link>
         </div>
