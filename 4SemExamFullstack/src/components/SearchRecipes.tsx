@@ -15,6 +15,11 @@ const SearchRecipes = () => {
     setSearchInput(event.target.value);
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleSearch();
+  };
+  
   const submitTest = () => {
     console.log("submit test");
     const url =
@@ -25,14 +30,14 @@ const SearchRecipes = () => {
 
   return (
     <section id="searchrecipes">
-      <div className="container mx-auto py-4 flex flex-col">
+      <div className="container mx-auto py-4 flex flex-col items-center">
         <div className="text-1.5xl font-bold mb-4 items-center">
           {
             SearchRecipesText.find((text) => text.id === "SearchRecipesText")
               ?.heading
           }
         </div>
-        <div className="flex items-center mb-4">
+        <div className="flex items-center mb-4 ">
           <input
             className=""
             type="text"

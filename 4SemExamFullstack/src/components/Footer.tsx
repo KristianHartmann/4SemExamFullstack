@@ -5,7 +5,7 @@ import twitterLogo from "../images/twitterlogo.png";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="flex justify-between text-white items-center w-full bg-footer sm:px-16 px-6">
+    <footer className="flex justify-between text-white items-center w-full bg-footer sm:px-16 px-6 mb-auto fixed bottom-0">
       <div className="flex h-10 gap-6">
         <a href="https://www.facebook.com/">
           <img className="h-full" src={facebookLogo} alt="Facebook" />

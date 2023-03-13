@@ -10,13 +10,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Navbar.css";
 
-function Navbar() {
+const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   return (
     <section id="navbar">
       <div className="text-white flex justify-between sm:px-16 px-6 items-center bg-nav navbar w-full">
-        <div className="flex gap-10 h-16">
-          <a href="#home">
+        <div className="flex gap-10 h-16 ml-32">
+          <a href="/">
             <img className="h-full" alt="MonkeyLogo" src={monkeyLogo}></img>
           </a>
         </div>
@@ -28,21 +28,21 @@ function Navbar() {
                 index === navLinks.length - 1 ? "mr-0" : "mr-10"
               }`}>
               {nav.title === "Shoppinglist" ? (
-                <a href={`#${nav.id}`}>
+                <a href={`${nav.id}`}>
                   <FontAwesomeIcon
                     icon={faShoppingCart}
                     className="w-28px h-28px object-contain"
                   />
                 </a>
               ) : nav.title === "SearchRecipes" ? (
-                <a href={`#${nav.id}`}>
+                <a href={`${nav.id}`}>
                   <FontAwesomeIcon
                     icon={faSearch}
                     className="w-28px h-28px object-contain"
                   />
                 </a>
               ) : (
-                <a href={`#${nav.id}`}>{nav.title}</a>
+                <a href={`${nav.id}`}>{nav.title}</a>
               )}
             </li>
           ))}
@@ -64,7 +64,7 @@ function Navbar() {
                   className={`font-normal cursor-pointer text-[16px] ${
                     index === navLinks.length - 1 ? "mb-0" : "mb-4"
                   }`}>
-                  <a href={`#${nav.id}`}>{nav.title}</a>
+                  <a href={`${nav.id}`}>{nav.title}</a>
                 </li>
               ))}
             </ul>

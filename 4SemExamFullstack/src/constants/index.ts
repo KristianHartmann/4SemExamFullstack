@@ -4,7 +4,7 @@ export const navLinks = [
     title: "SearchRecipes",
   },
   {
-    id: "recipes",
+    id: "savedrecipes",
     title: "Saved Recipes",
   },
   {

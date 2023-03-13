@@ -6,9 +6,9 @@ function Hero() {
   return (
     <section
       id="home"
-      className="bg-tertiary flex flex-grow text-white font-serif">
+      className="bg-tertiary flex text-white font-serif">
       <div className="flex flex-col w-1/2 items-center flex-grow gap-14">
-        <div className=" heading1 flex justify-center pt-3">
+        <div className=" heading1 flex justify-center pt-3 mt-16">
           {
             DualHeroBannerText.find((text) => text.id === "FrontBannerText")
               ?.heading
@@ -27,7 +27,7 @@ function Hero() {
           }
         </div>
         <div>
-          <a href="#home">
+          <a href="recipes">
             <button className="btn-primary">
               See the coolest recipes here!
             </button>
