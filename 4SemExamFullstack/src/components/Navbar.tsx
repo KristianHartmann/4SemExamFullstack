@@ -1,9 +1,9 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { navLinks } from "../constants";
 import monkeyLogo from "../images/monkeyLogo.png";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import {
   faBars,
   faSearch,
@@ -13,35 +13,35 @@ import "../styles/Navbar.css";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const iconMap: { [key: string]: IconDefinition } = {
+    Shoppinglist: faShoppingCart,
+    SearchRecipes: faSearch,
+  };
+
   return (
     <section id="navbar">
       <div className="text-white flex justify-between sm:px-16 px-6 items-center bg-nav navbar w-full">
         <div className="flex gap-10 h-16 ml-32">
-        <Link to='/'><img className="h-full" alt="MonkeyLogo" src={monkeyLogo}></img></Link>
+          <Link to="/">
+            <img className="h-full" alt="MonkeyLogo" src={monkeyLogo}></img>
+          </Link>
         </div>
         <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-          {navLinks.map((nav, index) => (
+          {navLinks.map(({ id, title }, index) => (
             <li
-              key={nav.id}
+              key={id}
               className={`font-normal cursor-pointer text-[16px] ${
                 index === navLinks.length - 1 ? "mr-0" : "mr-10"
               }`}>
-              {nav.title === "Shoppinglist" ? (
-                <Link to={`${nav.id}`}>
+              {iconMap[title] ? (
+                <Link to={`${id}`}>
                   <FontAwesomeIcon
-                    icon={faShoppingCart}
-                    className="w-28px h-28px object-contain"
-                  />
-                </Link>
-              ) : nav.title === "SearchRecipes" ? (
-                <Link to={`${nav.id}`}>
-                  <FontAwesomeIcon
-                    icon={faSearch}
+                    icon={iconMap[title]}
                     className="w-28px h-28px object-contain"
                   />
                 </Link>
               ) : (
-                <Link to={`${nav.id}`}>{nav.title}</Link>
+                <Link to={`${id}`}>{title}</Link>
               )}
             </li>
           ))}
@@ -57,13 +57,13 @@ const Navbar = () => {
               toggle ? "flex" : "hidden"
             } p-6 absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar`}>
             <ul className="list-none flex flex-col justify-end items-center flex-1">
-              {navLinks.map((nav, index) => (
+              {navLinks.map(({ id, title }, index) => (
                 <li
-                  key={nav.id}
+                  key={id}
                   className={`font-normal cursor-pointer text-[16px] ${
                     index === navLinks.length - 1 ? "mb-0" : "mb-4"
                   }`}>
-                  <a href={`${nav.id}`}>{nav.title}</a>
+                  <a href={`${id}`}>{title}</a>
                 </li>
               ))}
             </ul>
@@ -72,6 +72,6 @@ const Navbar = () => {
       </div>
     </section>
   );
-}
+};
 
 export default Navbar;
