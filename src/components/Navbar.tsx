@@ -20,8 +20,8 @@ const Navbar = () => {
 
   return (
     <section id="navbar">
-      <div className="text-white flex justify-between sm:px-16 px-6 items-center bg-nav navbar w-full">
-        <div className="flex gap-10 h-16 ml-32">
+      <div className="text-white flex justify-between sm:px-16 px-6 items-center bg-tertiary navbar w-full">
+        <div className="flex gap-10 h-16 ml-4 sm:ml-0">
           <Link to="/">
             <img className="h-full" alt="MonkeyLogo" src={monkeyLogo}></img>
           </Link>
@@ -34,14 +34,14 @@ const Navbar = () => {
                 index === navLinks.length - 1 ? "mr-0" : "mr-10"
               }`}>
               {iconMap[title] ? (
-                <Link to={`${id}`}>
+                <Link to={`/${id}`}>
                   <FontAwesomeIcon
                     icon={iconMap[title]}
                     className="w-28px h-28px object-contain"
                   />
                 </Link>
               ) : (
-                <Link to={`${id}`}>{title}</Link>
+                <Link to={`/${id}`}>{title}</Link>
               )}
             </li>
           ))}
@@ -55,7 +55,7 @@ const Navbar = () => {
           <div
             className={`${
               toggle ? "flex" : "hidden"
-            } p-6 absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar`}>
+            } p-6 absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar text-white bg-tertiary`}>
             <ul className="list-none flex flex-col justify-end items-center flex-1">
               {navLinks.map(({ id, title }, index) => (
                 <li
@@ -63,7 +63,7 @@ const Navbar = () => {
                   className={`font-normal cursor-pointer text-[16px] ${
                     index === navLinks.length - 1 ? "mb-0" : "mb-4"
                   }`}>
-                  <a href={`${id}`}>{title}</a>
+                  <Link to={`/${id}`}>{title}</Link>
                 </li>
               ))}
             </ul>
