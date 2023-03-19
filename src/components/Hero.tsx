@@ -26,7 +26,7 @@ function Hero() {
           <div className="text-center text-lg lg:text-xl md:text-2xl">
             {textTwo}
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-10">
             <Link to="searchrecipes">
               <button className="btn-primary">{linkText}</button>
             </Link>

@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
     <section id="navbar">
-      <div className="text-white flex justify-between sm:px-16 px-6 items-center bg-tertiary navbar w-full">
+      <div className="text-white flex justify-between sm:px-16 px-6 items-center bg-tertiary navbar w-full relative z-10">
         <div className="flex gap-10 h-16 ml-4 sm:ml-0">
           <Link to="/">
             <img className="h-full" alt="MonkeyLogo" src={monkeyLogo}></img>
@@ -51,7 +51,10 @@ const Navbar = () => {
             icon={faBars}
             className="w-28px h-28px object-contain"
             onClick={() => setToggle((prev) => !prev)}
+            aria-label="Open mobile menu"
+            role="button"
           />
+
           <div
             className={`${
               toggle ? "flex" : "hidden"
@@ -63,7 +66,9 @@ const Navbar = () => {
                   className={`font-normal cursor-pointer text-[16px] ${
                     index === navLinks.length - 1 ? "mb-0" : "mb-4"
                   }`}>
-                  <Link to={`/${id}`}>{title}</Link>
+                  <Link to={`/${id}`} onClick={() => setToggle(false)}>
+                    {title}
+                  </Link>
                 </li>
               ))}
             </ul>

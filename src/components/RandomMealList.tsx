@@ -54,9 +54,12 @@ function RandomMealList(): JSX.Element {
         Check out some the latest and coolest recipes!
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-3/4">
-        {meals.map((meal) => (
+        {meals.map((meal, index) => (
           <Link to={`/recipe/${meal.idMeal}`} key={meal.strMeal}>
-            <div className="bg-white rounded-lg shadow-md flex flex-col items-center">
+            <div
+              className={`bg-white rounded-lg shadow-md flex flex-col items-center ${
+                index >= 3 ? "hidden md:block" : ""
+              }`}>
               <img
                 src={meal.strMealThumb}
                 alt={meal.strMeal}
