@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import "../styles/SearchRecipes.css";
 
 interface Meal {
@@ -12,6 +12,7 @@ interface Meal {
 
 function RandomMealList(): JSX.Element {
   const [meals, setMeals] = useState<Meal[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -48,31 +49,36 @@ function RandomMealList(): JSX.Element {
     fetchMeals();
   }, []);
 
+
+  const handleMealClick = (mealId: string) => {
+    navigate(`/recipe?id=${mealId}`);
+  };
   return (
-    <div className="flex flex-col justify-center items-center mb-10">
+    <div className="flex flex-col justify-center items-center mb-10 cursor-pointer">
       <h2 className="heading1 text-2xl font-bold text-center SearchRecipesHeading mb-10 mt-10">
         Check out some the latest and coolest recipes!
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-3/4">
         {meals.map((meal, index) => (
-          <Link to={`/recipe/${meal.idMeal}`} key={meal.strMeal}>
-            <div
-              className={`bg-white rounded-lg shadow-md flex flex-col items-center ${
-                index >= 3 ? "hidden md:block" : ""
-              }`}>
-              <img
-                src={meal.strMealThumb}
-                alt={meal.strMeal}
-                className="rounded-t-lg w-full"
-              />
-              <div className="p-4">
-                <div className="text-lg font-bold mb-2">{meal.strMeal}</div>
-                <div className="text-sm text-gray-600 mb-2">
-                  {meal.strCategory}
-                </div>
+          <div
+            key={meal.strMeal}
+            className={`bg-white rounded-lg shadow-md flex flex-col items-center ${
+              index >= 3 ? "hidden md:block" : ""
+            }`}
+            onClick={() => handleMealClick(meal.idMeal)}
+          >
+            <img
+              src={meal.strMealThumb}
+              alt={meal.strMeal}
+              className="rounded-t-lg w-full"
+            />
+            <div className="p-4">
+              <div className="text-lg font-bold mb-2">{meal.strMeal}</div>
+              <div className="text-sm text-gray-600 mb-2">
+                {meal.strCategory}
               </div>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>
