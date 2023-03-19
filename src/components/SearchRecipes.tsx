@@ -2,6 +2,17 @@ import React, { useState } from "react";
 import { SearchRecipesText } from "../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate } from 'react-router-dom';
+import ThumbnailNotFound from "../images/404ThumbnailNotFound.jpg";
+
+
+interface Meal {
+  idMeal: string;
+  strMealThumb: string;
+  strMeal: string;
+  strCategory: string;
+  strTags: string;
+}
 
 const SearchRecipes = () => {
   const [searchText, setSearchText] = useState("");
@@ -10,27 +21,38 @@ const SearchRecipes = () => {
     glutenFree: false,
     dairyFree: false,
   });
+  const [meals, setMeals] = useState<Meal[]>([]);
+  const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("searched");
-    console.log(filters);
+    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`)
+      .then((response) => response.json())
+      .then((data) => setMeals(data.meals));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
   };
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+  const handleMealClick = (mealId: string) => {
+    navigate(`/recipe?id=${mealId}`);
+  };
+
+  const handleNextClick = () => {
+    setIndex((prevIndex) => prevIndex + 6);
+  };
+
+  const handlePrevClick = () => {
+    setIndex((prevIndex) => prevIndex - 6);
+  };
 
   return (
     <section>
-      <div className="p-5 heading2 bg-white w-11/12 mx-auto md:w-1/2 h-auto md:h-96">
-        <div className="mb-5 font-sans">
-          {
-            SearchRecipesText.find((text) => text.id === "SearchRecipesText")
-              ?.heading
-          }
+      <div className="p-5 heading2 w-11/12 mx-auto md:w-1/2 h-full rounded-lg shadow-lg flex flex-col bg-white mt-3">
+        <div className="mb-5 font-sans text-center md:text-left">
+          {SearchRecipesText.find((text) => text.id === "SearchRecipesText")?.heading}
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -58,12 +80,62 @@ const SearchRecipes = () => {
           </div>
         </form>
 
-        {searchText && (
-          <div className="mt-4 text-center text-gray-500">Coming soon...</div>
-        )}
-      </div>
-    </section>
-  );
-};
+        {meals && meals.length > 0 && (
+          <div className="mt-4 flex items-center justify-center">
 
-export default SearchRecipes;
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 cursor-pointer">
+              {meals.slice(index, index + 6).map((meal) => (
+                <div
+                  key={meal.idMeal}
+                  className="bg-white rounded-lg shadow-lg p-4 flex flex-col items-center"
+                  onClick={() => handleMealClick(meal.idMeal)}
+                  >
+                  {meal.strMealThumb ? (
+                  <img
+                                     src={meal.strMealThumb}
+                                     alt={meal.strMeal}
+                                     className="w-full object-cover h-40 rounded-lg mb-4"
+                                   />
+                  ) : (
+                  <img
+                                     src={ThumbnailNotFound}
+                                     alt="Thumbnail Not Found"
+                                     className="w-full object-cover h-40 rounded-lg mb-4"
+                                   />
+                  )}
+                  <div className="text-sm font-medium text-gray-700 text-center">
+                  {meal.strMeal}
+                  </div>
+                  <div className="text-xs text-gray-500 text-center">
+                  {meal.strCategory}
+                  </div>
+                  </div>
+                  ))}
+                  </div>
+                  
+                  </div>
+                  )}
+                  {meals && meals.length > 6 && (
+                  <div className="flex justify-center mt-4 items-center">
+                  <button
+                  className="bg-primary hover:bg-tertiary text-white font-medium rounded-lg text-sm px-4 py-2 mr-2"
+                  disabled={index === 0}
+                  onClick={() => setIndex(index - 6)}
+                  >
+                  Prev
+                  </button>
+                  <button
+                  className="bg-primary hover:bg-tertiary text-white font-medium rounded-lg text-sm px-4 py-2"
+                  disabled={index + 6 >= meals.length}
+                  onClick={() => setIndex(index + 6)}
+                  >
+                  Next
+                  </button>
+                  </div>
+                  )}
+                  </div>
+                  </section>
+                  );
+                  };
+                  
+                  export default SearchRecipes;

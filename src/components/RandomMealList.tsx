@@ -36,6 +36,16 @@ function RandomMealList(): JSX.Element {
           fetch("https://www.themealdb.com/api/json/v1/1/random.php")
         )
       );
+
+      for (let i = 0; i < responses.length; i++) {
+        for (let j = i + 1; j < responses.length; j++) {
+          if (JSON.stringify(responses[i]) === JSON.stringify(responses[j])) {
+            const newResponse = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
+            responses[j] = newResponse;
+          }
+        }
+      }
+      
       const data = await Promise.all(
         responses.map((response) => response.json())
       );

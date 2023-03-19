@@ -36,7 +36,7 @@ const Recipe: React.FC<RecipeProps> = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen px-4">
+    <div className="flex flex-col justify-center items-center min-h-screen px-4 mb-10 mt-10">
       <div className="w-full md:w-2/3 lg:w-1/2 mx-auto rounded-lg shadow-lg overflow-hidden  bg-white">
         <img
           src={recipe?.strMealThumb}
@@ -56,6 +56,22 @@ const Recipe: React.FC<RecipeProps> = () => {
             <h3 className="text-xl font-bold mb-2">Instructions:</h3>
             <p className="whitespace-pre-wrap">{recipe?.strInstructions}</p>
           </div>
+          {recipe?.strYoutube && (
+            <div className="mt-4">
+              <h3 className="text-xl font-bold mb-2">Video Guide:</h3>
+              <p>
+                Check out a video guide on how to do the recipe below:
+              </p>
+              <iframe
+                className="w-full"
+                height="315"
+                src={`https://www.youtube.com/embed/${recipe?.strYoutube.slice(-11)}`}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
