@@ -37,7 +37,7 @@ const Recipe: React.FC<RecipeProps> = () => {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen px-4">
-      <div className="w-full md:w-2/3 lg:w-1/2 mx-auto rounded-lg shadow-lg overflow-hidden">
+      <div className="w-full md:w-2/3 lg:w-1/2 mx-auto rounded-lg shadow-lg overflow-hidden  bg-white">
         <img
           src={recipe?.strMealThumb}
           alt={recipe?.strMeal}
