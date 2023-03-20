@@ -7,7 +7,7 @@ import RandomMealList from "./RandomMealList";
 
 const HomepageContent = () => {
   return (
-    <section id="home flex flex-grow">
+    <section id="home">
       <Hero />
       <RandomMealList />
     </section>

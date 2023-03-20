@@ -30,6 +30,6 @@ export const DualHeroBannerText = [
 export const SearchRecipesText = [
   {
     id: "SearchRecipesText",
-    heading: "Search for a recipe right below! Search in English and watch typing errors!",
+    heading: "Search for a recipe right below!",
   },
 ];
