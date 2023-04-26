@@ -46,6 +46,7 @@ function Login({ login }: LoginProps) {
             value={loginCredentials.email}
             onChange={onChange}
             className="w-full p-2 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:border-blue-400"
+            required
           />
         </div>
 
@@ -62,6 +63,7 @@ function Login({ login }: LoginProps) {
             value={loginCredentials.password}
             onChange={onChange}
             className="w-full p-2 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:border-blue-400"
+            required
           />
         </div>
         <div className="mt-6">
