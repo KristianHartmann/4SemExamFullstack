@@ -8,15 +8,15 @@ function handleHttpErrors(res) {
   return res.json();
 }
 
-export const setUserName = (username) => {
-  localStorage.setItem("username", username);
+export const setEmail = (email) => {
+  localStorage.setItem("email", email);
 };
-export const getUserName = () => {
-  return localStorage.getItem("username");
+export const getEmail = () => {
+  return localStorage.getItem("email");
 };
 
-export const removeUserName = () => {
-  localStorage.removeItem("username");
+export const removeEmail = () => {
+  localStorage.removeItem("email");
 };
 
 function apiFacade() {
@@ -32,19 +32,19 @@ function apiFacade() {
   };
   const logout = () => {
     localStorage.removeItem("jwtToken");
-    removeUserName();
+    removeEmail();
   };
 
-  const login = (user, password) => {
+  const login = (email, password) => {
     const options = makeOptions("POST", true, {
-      username: user,
+      email: email,
       password: password,
     });
     return fetch(API_URL + "/api/login", options)
       .then(handleHttpErrors)
       .then((res) => {
         setToken(res.token);
-        setUserName(res.username);
+        setEmail(res.email);
       });
   };
 
