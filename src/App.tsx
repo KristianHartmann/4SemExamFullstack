@@ -7,6 +7,11 @@ import SearchRecipes from './components/SearchRecipes';
 import SavedRecipes from './components/SavedRecipes';
 import Recipe from './components/Recipe';
 import Login from './components/Login';
+import Register from './components/Register';
+
+type LoginProps = {
+  login: (username: string, password: string) => void;
+};
 
 const App: React.FC = () => {
   return (
@@ -20,7 +25,9 @@ const App: React.FC = () => {
             <Route path="/savedrecipes" element={<SavedRecipes />} />
             <Route path="/recipe" element={<Recipe />} />
             <Route path="/shoppinglist" element={<div> not implemented yet</div>} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login login={() => {}} />} />
+            {/* <Route path="/login" element={<Login login={yourLoginFunction} />} /> // Skal bruges en login function  */}
           </Routes>
         </div>
         <Footer />

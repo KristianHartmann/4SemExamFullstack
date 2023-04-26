@@ -15,6 +15,10 @@ export const navLinks = [
     id: "login",
     title: "Login",
   },
+  {
+    id: "register",
+    title: "Register",
+  }
 ];
 export const DualHeroBannerText = [
   {
