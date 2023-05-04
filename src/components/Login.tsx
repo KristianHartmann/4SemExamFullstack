@@ -14,15 +14,8 @@ function Login({ login }: LoginProps) {
   const performLogin = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     login(loginCredentials.email, loginCredentials.password);
-  };
-
-  const testLogin = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    console.log(
-      "testLogin ",
-      loginCredentials.email,
-      loginCredentials.password
-    );
+    console.log(loginCredentials.email, loginCredentials.password);
+    console.log("success");
   };
 
   const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +28,10 @@ function Login({ login }: LoginProps) {
   return (
     <div className="flex flex-col items-center  min-h-screen">
       <h2 className="text-2xl font-bold mb-4">Log in</h2>
-      <form onSubmit={testLogin} className="flex flex-col items-center gap-4">
+      <form
+        onSubmit={performLogin}
+        className="flex flex-col items-center gap-4"
+      >
         <div className="flex flex-col items-start w-full">
           <label htmlFor="email" className="mb-1 text-gray-700 font-bold">
             Email
