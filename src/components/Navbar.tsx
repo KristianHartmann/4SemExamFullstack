@@ -10,12 +10,19 @@ import {
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Navbar.css";
+import facade from "../facades/apiFacade";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(facade.loggedIn());
   const iconMap: { [key: string]: IconDefinition } = {
     Shoppinglist: faShoppingCart,
     SearchRecipes: faSearch,
+  };
+  const handleLogout = () => {
+    // handle the logout logic here
+    facade.logout();
+    setLoggedIn(false);
   };
 
   return (

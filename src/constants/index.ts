@@ -1,4 +1,18 @@
-export const navLinks = [
+import facade from "../facades/apiFacade";
+
+type NavLink = {
+  id: string;
+  title: string;
+  onClick?: () => void;
+};
+
+const handleLogout = () => {
+  facade.logout();
+  localStorage.setItem("username", "");
+  window.location.reload();
+};
+
+export const navLinks: NavLink[] = [
   {
     id: "searchrecipes",
     title: "SearchRecipes",
@@ -11,15 +25,28 @@ export const navLinks = [
     id: "shoppinglist",
     title: "Shoppinglist",
   },
-  {
-    id: "login",
-    title: "Login",
-  },
-  {
-    id: "register",
-    title: "Register",
-  }
 ];
+
+if (facade.loggedIn()) {
+  navLinks.push({
+    id: "logout",
+    title: "Logout",
+    onClick: handleLogout,
+  });
+} else {
+  console.log(facade.loggedIn());
+  navLinks.push(
+    {
+      id: "login",
+      title: "Login",
+    },
+    {
+      id: "register",
+      title: "Register",
+    }
+  );
+}
+
 export const DualHeroBannerText = [
   {
     id: "FrontBannerText",
