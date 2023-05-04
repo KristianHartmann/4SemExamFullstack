@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useQuery, ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import { GetRecipe } from "../queries/GetRecipe";
+import mongoose from "mongoose";
 
 const Recipe = ({
   client,
@@ -14,19 +15,47 @@ const Recipe = ({
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      const result = await client.query({
-        query: GetRecipe,
-        variables: { recipeId: recipeId },
-      });
+      let recipe;
 
-      //   const response = await fetch(
-      //     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
-      //   );
-      //   const data = await response.json();
-      //   setRecipe(data.meals[0]);
-      // };
-      setRecipe(result.data.recipe);
+      if (mongoose.Types.ObjectId.isValid(recipeId)) {
+        const result = await client.query({
+          query: GetRecipe,
+          variables: { recipeId: recipeId },
+        });
+        recipe = result.data.recipe;
+      } else {
+        const response = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`
+        );
+        const data = await response.json();
+        console.log(data);
+        const ingredients = [];
+        const meal = data.meals[0];
+
+        for (let i = 1; i <= 20; i++) {
+          const ingredient = meal[`strIngredient${i}`];
+          const measure = meal[`strMeasure${i}`];
+
+          if (ingredient && measure) {
+            ingredients.push({ name: ingredient, measure });
+          }
+        }
+
+        recipe = {
+          mealHeadline: meal.strMeal,
+          instructions: meal.strInstructions,
+          mealThumbnail: meal.strMealThumb,
+          mealVideo: meal.strYoutube,
+          category: {
+            category: meal.strCategory,
+          },
+          ingredients,
+        };
+      }
+      console.log(recipe);
+      setRecipe(recipe);
     };
+
     fetchRecipe();
   }, [recipeId, client]);
 
@@ -57,7 +86,7 @@ const Recipe = ({
           </div>
           <div className="mt-4">
             <h3 className="text-xl font-bold mb-2">Made by:</h3>
-            <p className="whitespace-pre-wrap">{recipe?.createdBy.email}</p>
+            <p className="whitespace-pre-wrap">{recipe?.createdBy?.email}</p>
           </div>
           {recipe?.reviews && (
             <div className="mt-4">
@@ -73,7 +102,7 @@ const Recipe = ({
             </div>
           )}
 
-          {recipe?.strYoutube && (
+          {recipe?.mealVideo && (
             <div className="mt-4">
               <h3 className="text-xl font-bold mb-2">Video Guide:</h3>
               <p>Check out a video guide on how to do the recipe below:</p>
