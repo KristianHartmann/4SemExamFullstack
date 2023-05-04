@@ -38,29 +38,7 @@ function apiFacade() {
     removeEmail();
   };
 
-  const login = (email: string, password: string) => {
-    const options = makeOptions("POST", false, {
-      query: `
-      mutation Login($input: LoginInput!) {
-        login(input: $input) {
-          token
-        }
-      }
-      `,
-      variables: {
-        input: { email, password },
-      },
-    });
-
-    return fetch(API_URL, options)
-      .then(handleHttpErrors)
-      .then((data) => {
-        const token = data.data.login.token;
-        const email = data.data.login.user.email;
-        setToken(token);
-        setEmail(email);
-      });
-  };
+ 
 
   const makeOptions = (method: string, addToken: boolean, body?: any) => {
     const headers: any = {
@@ -88,7 +66,6 @@ function apiFacade() {
     setToken,
     getToken,
     loggedIn,
-    login,
     logout,
   };
 }

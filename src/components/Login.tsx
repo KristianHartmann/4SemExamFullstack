@@ -1,35 +1,56 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useMutation, ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { LoginMutation } from "../queries/LoginMutation";
 
-interface LoginProps {
-  login: (email: string, password: string) => void;
+interface LoginInput {
+  email: string;
+  password: string;
 }
 
-function Login({ login }: LoginProps) {
-  const init = { email: "", password: "" };
-  const [loginCredentials, setLoginCredentials] = useState<{
-    email: string;
-    password: string;
-  }>(init);
+interface LoginData {
+  login: {
+    token: string;
+  }
+}
 
-  const performLogin = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    login(loginCredentials.email, loginCredentials.password);
-    console.log(loginCredentials.email, loginCredentials.password);
-    console.log("success");
-  };
+interface LoginVariables {
+  input: LoginInput;
+}
 
-  const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setLoginCredentials({
-      ...loginCredentials,
-      [evt.target.id]: evt.target.value,
+
+
+
+const Login = ({
+  client,
+}: {
+  client: ApolloClient<NormalizedCacheObject>;
+}) => { 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [login, { loading, error, data }] = useMutation<LoginData, LoginVariables>(LoginMutation);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("login")
+    login({
+      variables: { input: { email, password } }
     });
-  };
+  }
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  if (data && data.login.token) {
+
+    localStorage.setItem('jwtToken', data.login.token);
+    }
 
   return (
     <div className="flex flex-col items-center  min-h-screen">
       <h2 className="text-2xl font-bold mb-4">Log in</h2>
       <form
-        onSubmit={performLogin}
+        onSubmit={handleSubmit}
         className="flex flex-col items-center gap-4"
       >
         <div className="flex flex-col items-start w-full">
@@ -39,8 +60,8 @@ function Login({ login }: LoginProps) {
           <input
             id="email"
             type="text"
-            value={loginCredentials.email}
-            onChange={onChange}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full p-2 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:border-blue-400"
             required
           />
@@ -56,8 +77,8 @@ function Login({ login }: LoginProps) {
           <input
             id="password"
             type="password"
-            value={loginCredentials.password}
-            onChange={onChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full p-2 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:border-blue-400"
             required
           />

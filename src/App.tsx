@@ -20,10 +20,6 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-type LoginProps = {
-  login: (username: string, password: string) => void;
-};
-
 const App: React.FC = () => {
   return (
     <ApolloProvider client={client}>
@@ -41,8 +37,8 @@ const App: React.FC = () => {
                 element={<div> not implemented yet</div>}
               />
               <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login login={() => {}} />} />
-              {/* <Route path="/login" element={<Login login={yourLoginFunction} />} /> // Skal bruges en login function  */}
+              <Route path="/login" element={<Login client={client} />}
+              />
             </Routes>
           </div>
           <Footer />
