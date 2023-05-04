@@ -92,8 +92,7 @@ const SearchRecipes = () => {
             <button
               type="submit"
               onClick={() => setIndex(0)}
-              className="text-white absolute right-2.5 bottom-2.5 bg-primary hover:bg-tertiary font-medium rounded-lg text-sm px-4 py-2"
-            >
+              className="text-white absolute right-2.5 bottom-2.5 bg-primary hover:bg-tertiary font-medium rounded-lg text-sm px-4 py-2">
               Search
             </button>
           </div>
@@ -110,8 +109,7 @@ const SearchRecipes = () => {
                 <select
                   id="DropdownMeals"
                   onChange={handleCategoryInputChange}
-                  className="w-full p-2.5 text-gray-500  border rounded-md shadow-sm outline-none appearance-none focus:border-black bg-gray-50"
-                >
+                  className="w-full p-2.5 text-gray-500  border rounded-md shadow-sm outline-none appearance-none focus:border-black bg-gray-50">
                   {categories.map((category) => (
                     <option key={category.idCategory}>
                       {category.strCategory}
@@ -121,8 +119,7 @@ const SearchRecipes = () => {
                 <button
                   type="submit"
                   onClick={() => setIndex(0)}
-                  className="text-white absolute right-2.5 bottom-2.5 bg-primary hover:bg-tertiary font-medium rounded-lg text-sm px-4 py-2"
-                >
+                  className="text-white absolute right-2.5 bottom-2.5 bg-primary hover:bg-tertiary font-medium rounded-lg text-sm px-4 py-2">
                   Search
                 </button>
               </form>
@@ -137,8 +134,7 @@ const SearchRecipes = () => {
                 <div
                   key={meal.idMeal}
                   className="bg-white rounded-lg shadow-lg p-4 flex flex-col items-center cursor-pointer"
-                  onClick={() => handleMealClick(meal.idMeal)}
-                >
+                  onClick={() => handleMealClick(meal.idMeal)}>
                   {meal.strMealThumb ? (
                     <img
                       src={meal.strMealThumb}
@@ -165,15 +161,13 @@ const SearchRecipes = () => {
             <button
               className="bg-primary hover:bg-tertiary text-white font-medium rounded-lg text-sm px-4 py-2 mr-2"
               disabled={index === 0}
-              onClick={() => setIndex(index - 6)}
-            >
+              onClick={() => setIndex(index - 6)}>
               Prev
             </button>
             <button
               className="bg-primary hover:bg-tertiary text-white font-medium rounded-lg text-sm px-4 py-2"
               disabled={index + 6 >= meals.length}
-              onClick={() => setIndex(index + 6)}
-            >
+              onClick={() => setIndex(index + 6)}>
               Next
             </button>
           </div>

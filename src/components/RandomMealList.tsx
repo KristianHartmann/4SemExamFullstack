@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
+import { useQuery, ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import "../styles/SearchRecipes.css";
-
+import GetAllRecipes from "../queries/GetAllRecipes";
 interface Meal {
-  idMeal: string;
-  strMealThumb: string;
-  strMeal: string;
-  strCategory: string;
-  strTags: string;
+  id: string;
+  mealThumbnail: string;
+  mealHeadline: string;
+  category: {
+    category: string;
+  };
 }
 
-function RandomMealList(): JSX.Element {
+const RandomMealList = ({
+  client,
+}: {
+  client: ApolloClient<NormalizedCacheObject>;
+}) => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const navigate = useNavigate();
 
@@ -30,38 +36,39 @@ function RandomMealList(): JSX.Element {
           return;
         }
       }
+      const result = await client.query(GetAllRecipes);
+      console.log(result);
+      // const responses = await Promise.all(
+      //   Array.from({ length: 6 }, () =>
+      //     fetch("https://www.themealdb.com/api/json/v1/1/random.php")
+      //   )
+      // );
 
-      const responses = await Promise.all(
-        Array.from({ length: 6 }, () =>
-          fetch("https://www.themealdb.com/api/json/v1/1/random.php")
-        )
-      );
+      // for (let i = 0; i < responses.length; i++) {
+      //   for (let j = i + 1; j < responses.length; j++) {
+      //     if (JSON.stringify(responses[i]) === JSON.stringify(responses[j])) {
+      //       const newResponse = await fetch(
+      //         "https://www.themealdb.com/api/json/v1/1/random.php"
+      //       );
+      //       responses[j] = newResponse;
+      //     }
+      //   }
+      // }
 
-      for (let i = 0; i < responses.length; i++) {
-        for (let j = i + 1; j < responses.length; j++) {
-          if (JSON.stringify(responses[i]) === JSON.stringify(responses[j])) {
-            const newResponse = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
-            responses[j] = newResponse;
-          }
-        }
-      }
-      
-      const data = await Promise.all(
-        responses.map((response) => response.json())
-      );
-      const meals = data.map((response) => response.meals[0]); // Access the meals array from the response object
+      // const data = await Promise.all(
+      //   responses.map((response) => response.json())
+      // );
 
-      setMeals(meals);
-      localStorage.setItem("meals", JSON.stringify(meals));
+      setMeals(result.data.recipes);
+      localStorage.setItem("meals", JSON.stringify(result.data.recipes));
       localStorage.setItem("time", new Date().getTime().toString());
     };
 
     fetchMeals();
   }, []);
 
-
-  const handleMealClick = (mealId: string) => {
-    navigate(`/recipe?id=${mealId}`);
+  const handleMealClick = (id: string) => {
+    navigate(`/recipe?id=${id}`);
   };
   return (
     <div className="flex flex-col justify-center items-center mb-10 cursor-pointer">
@@ -71,21 +78,20 @@ function RandomMealList(): JSX.Element {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-3/4">
         {meals.map((meal, index) => (
           <div
-            key={meal.strMeal}
+            key={meal.mealHeadline}
             className={`bg-white rounded-lg shadow-md flex flex-col items-center ${
               index >= 3 ? "hidden md:block" : ""
             }`}
-            onClick={() => handleMealClick(meal.idMeal)}
-          >
+            onClick={() => handleMealClick(meal.id)}>
             <img
-              src={meal.strMealThumb}
-              alt={meal.strMeal}
+              src={meal.mealThumbnail}
+              alt={meal.mealHeadline}
               className="rounded-t-lg w-full"
             />
             <div className="p-4">
-              <div className="text-lg font-bold mb-2">{meal.strMeal}</div>
+              <div className="text-lg font-bold mb-2">{meal.mealHeadline}</div>
               <div className="text-sm text-gray-600 mb-2">
-                {meal.strCategory}
+                {meal.category.category}
               </div>
             </div>
           </div>
@@ -93,6 +99,6 @@ function RandomMealList(): JSX.Element {
       </div>
     </div>
   );
-}
+};
 
 export default RandomMealList;
