@@ -1,6 +1,11 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { useMutation, ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import {
+  useMutation,
+  ApolloClient,
+  NormalizedCacheObject,
+} from "@apollo/client";
 import { LoginMutation } from "../queries/LoginMutation";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 
 interface LoginInput {
   email: string;
@@ -10,41 +15,38 @@ interface LoginInput {
 interface LoginData {
   login: {
     token: string;
-  }
+  };
 }
 
 interface LoginVariables {
   input: LoginInput;
 }
 
+const Login = ({ client }: { client: ApolloClient<NormalizedCacheObject> }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-
-
-const Login = ({
-  client,
-}: {
-  client: ApolloClient<NormalizedCacheObject>;
-}) => { 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const [login, { loading, error, data }] = useMutation<LoginData, LoginVariables>(LoginMutation);
+  const [login, { loading, error, data }] = useMutation<
+    LoginData,
+    LoginVariables
+  >(LoginMutation);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("login")
+    console.log("login");
     login({
-      variables: { input: { email, password } }
+      variables: { input: { email, password } },
     });
-  }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   if (data && data.login.token) {
+    localStorage.setItem("jwtToken", data.login.token);
 
-    localStorage.setItem('jwtToken', data.login.token);
-    }
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="flex flex-col items-center  min-h-screen">
@@ -94,6 +96,6 @@ const Login = ({
       </form>
     </div>
   );
-}
+};
 
 export default Login;

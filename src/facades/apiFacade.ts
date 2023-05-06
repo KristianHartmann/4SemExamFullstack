@@ -38,8 +38,6 @@ function apiFacade() {
     removeEmail();
   };
 
- 
-
   const makeOptions = (method: string, addToken: boolean, body?: any) => {
     const headers: any = {
       "Content-Type": "application/json",

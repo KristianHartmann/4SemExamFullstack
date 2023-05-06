@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
@@ -8,6 +8,7 @@ import SavedRecipes from "./components/SavedRecipes";
 import Recipe from "./components/Recipe";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import facade from "./facades/apiFacade";
 import {
   ApolloClient,
   InMemoryCache,
@@ -21,6 +22,8 @@ export const client = new ApolloClient({
 });
 
 const App: React.FC = () => {
+
+
   return (
     <ApolloProvider client={client}>
       <BrowserRouter>
@@ -37,8 +40,7 @@ const App: React.FC = () => {
                 element={<div> not implemented yet</div>}
               />
               <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login client={client} />}
-              />
+              <Route path="/login" element={<Login client={client} />} />
             </Routes>
           </div>
           <Footer />

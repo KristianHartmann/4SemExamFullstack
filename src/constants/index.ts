@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import facade from "../facades/apiFacade";
 
 type NavLink = {
@@ -9,7 +10,9 @@ type NavLink = {
 const handleLogout = () => {
   facade.logout();
   localStorage.setItem("username", "");
-  window.location.reload();
+  const navigate = useNavigate();
+  navigate("/");
+  // window.location.reload();
 };
 
 export const navLinks: NavLink[] = [
@@ -25,27 +28,20 @@ export const navLinks: NavLink[] = [
     id: "shoppinglist",
     title: "Shoppinglist",
   },
-];
-
-if (facade.loggedIn()) {
-  navLinks.push({
+  {
+    id: "login",
+    title: "Login",
+  },
+  {
+    id: "register",
+    title: "Register",
+  },
+  {
     id: "logout",
     title: "Logout",
-    onClick: handleLogout,
-  });
-} else {
-  console.log(facade.loggedIn());
-  navLinks.push(
-    {
-      id: "login",
-      title: "Login",
-    },
-    {
-      id: "register",
-      title: "Register",
-    }
-  );
-}
+  },
+];
+
 
 export const DualHeroBannerText = [
   {

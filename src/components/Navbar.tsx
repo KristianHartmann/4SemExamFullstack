@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { navLinks } from "../constants";
-import monkeyLogo from "../images/monkeyLogo.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -9,21 +7,64 @@ import {
   faSearch,
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
-import "../styles/Navbar.css";
+import monkeyLogo from "../images/monkeyLogo.png";
 import facade from "../facades/apiFacade";
+import "../styles/Navbar.css";
+
+type NavLink = {
+  id: string;
+  title: string;
+  onClick?: () => void;
+};
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(facade.loggedIn());
+  const location = useLocation();
+  const isLoggedIn = facade.loggedIn();
+
+  const handleLogout = () => {
+    facade.logout();
+  };
+
   const iconMap: { [key: string]: IconDefinition } = {
     Shoppinglist: faShoppingCart,
     SearchRecipes: faSearch,
   };
-  const handleLogout = () => {
-    // handle the logout logic here
-    facade.logout();
-    setLoggedIn(false);
-  };
+
+  const navLinks: NavLink[] = [
+    {
+      id: "searchrecipes",
+      title: "SearchRecipes",
+    },
+    {
+      id: "savedrecipes",
+      title: "Saved Recipes",
+    },
+    {
+      id: "shoppinglist",
+      title: "Shoppinglist",
+    },
+  ];
+
+  if (isLoggedIn) {
+    navLinks.push({
+      id: "logout",
+      title: "Logout",
+      onClick: handleLogout,
+    });
+  } else {
+    navLinks.push({
+      id: "login",
+      title: "Login",
+    });
+    navLinks.push({
+      id: "register",
+      title: "Register",
+    });
+  }
+
+  if (!isLoggedIn && location.pathname !== "/login")
+  return <Navigate to="/login" />;
 
   return (
     <section id="navbar">
@@ -34,56 +75,85 @@ const Navbar = () => {
           </Link>
         </div>
         <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-          {navLinks.map(({ id, title }, index) => (
+          {navLinks.map(({ id, title, onClick }, index) => (
             <li
               key={id}
               className={`font-normal cursor-pointer text-[16px] ${
                 index === navLinks.length - 1 ? "mr-0" : "mr-10"
-              }`}>
+              }`}
+            >
               {iconMap[title] ? (
-                <Link to={`/${id}`}>
-                  <FontAwesomeIcon
-                    icon={iconMap[title]}
-                    className="w-28px h-28px object-contain"
-                  />
+                <Link to={id === "logout" ? "/" : `/${id}`} onClick={onClick}>
+                  {id === "logout" ? (
+                    <FontAwesomeIcon
+                      icon={iconMap[title]}
+                      className="w-28px h-28px object-contain"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={iconMap[title]}
+                      className="w-28px h-28px object-contain"
+                    />
+                  )}
                 </Link>
               ) : (
-                <Link to={`/${id}`}>{title}</Link>
+                <Link to={id === "logout" ? "/" : `/${id}`} onClick={onClick}>
+                  {title}
+                </Link>
               )}
             </li>
           ))}
         </ul>
-        <div className="sm:hidden flex flex-1 justify-end items-center">
-          <FontAwesomeIcon
-            icon={faBars}
-            className="w-28px h-28px object-contain"
-            onClick={() => setToggle((prev) => !prev)}
-            aria-label="Open mobile menu"
-            role="button"
-          />
-
-          <div
-            className={`${
-              toggle ? "flex" : "hidden"
-            } p-6 absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar text-white bg-tertiary`}>
-            <ul className="list-none flex flex-col justify-end items-center flex-1">
-              {navLinks.map(({ id, title }, index) => (
-                <li
-                  key={id}
-                  className={`font-normal cursor-pointer text-[16px] ${
-                    index === navLinks.length - 1 ? "mb-0" : "mb-4"
-                  }`}>
-                  <Link to={`/${id}`} onClick={() => setToggle(false)}>
-                    {title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="sm:hidden block">
+          <button
+            className="bg-tertiary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => setToggle(!toggle)}
+          >
+            <FontAwesomeIcon
+              icon={faBars}
+              className="w-28px h-28px object-contain"
+            />
+          </button>
         </div>
       </div>
+      <ul
+        className={`${
+          toggle ? "block" : "hidden"
+        } absolute sm:hidden top-16 left-0 right-0 bg-tertiary list-none text-white px-4 py-2`}
+      >
+        {navLinks.map(({ id, title, onClick }) => (
+          <li
+            key={id}
+            className={`font-normal cursor-pointer text-[16px] py-2 ${
+              id === "logout" ? "border-t-2 border-gray-100 mt-2 pt-2" : ""
+            }`}
+          >
+            {iconMap[title] ? (
+              <Link to={id === "logout" ? "/" : `/${id}`} onClick={onClick}>
+                {id === "logout" ? (
+                  <FontAwesomeIcon
+                    icon={iconMap[title]}
+                    className="w-28px h-28px object-contain mr-4"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={iconMap[title]}
+                    className="w-28px h-28px object-contain mr-4"
+                  />
+                )}
+                {title}
+              </Link>
+            ) : (
+              <Link to={id === "logout" ? "/" : `/${id}`} onClick={onClick}>
+                {title}
+              </Link>
+            )}
+          </li>
+        ))}
+      </ul>
     </section>
   );
+  
 };
 
 export default Navbar;
