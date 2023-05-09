@@ -8,6 +8,7 @@ import SavedRecipes from "./components/SavedRecipes";
 import Recipe from "./components/Recipe";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import CreateRecipe from "./components/CreateRecipe";
 import facade from "./facades/apiFacade";
 import {
   ApolloClient,
@@ -41,6 +42,7 @@ const App: React.FC = () => {
               />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login client={client} />} />
+              <Route path="/createRecipe" element={<CreateRecipe />} />
             </Routes>
           </div>
           <Footer />

@@ -1,48 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import facade from "../facades/apiFacade";
 
-type NavLink = {
-  id: string;
-  title: string;
-  onClick?: () => void;
-};
-
-const handleLogout = () => {
-  facade.logout();
-  localStorage.setItem("username", "");
-  const navigate = useNavigate();
-  navigate("/");
-  // window.location.reload();
-};
-
-export const navLinks: NavLink[] = [
-  {
-    id: "searchrecipes",
-    title: "SearchRecipes",
-  },
-  {
-    id: "savedrecipes",
-    title: "Saved Recipes",
-  },
-  {
-    id: "shoppinglist",
-    title: "Shoppinglist",
-  },
-  {
-    id: "login",
-    title: "Login",
-  },
-  {
-    id: "register",
-    title: "Register",
-  },
-  {
-    id: "logout",
-    title: "Logout",
-  },
-];
-
-
 export const DualHeroBannerText = [
   {
     id: "FrontBannerText",

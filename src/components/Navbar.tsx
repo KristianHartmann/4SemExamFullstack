@@ -52,6 +52,10 @@ const Navbar = () => {
       title: "Logout",
       onClick: handleLogout,
     });
+    navLinks.push({
+      id: "createRecipe",
+      title: "Create a Recipe",
+    });
   } else {
     navLinks.push({
       id: "login",
@@ -63,8 +67,10 @@ const Navbar = () => {
     });
   }
 
-  if (!isLoggedIn && location.pathname !== "/login")
-  return <Navigate to="/login" />;
+  // if (!isLoggedIn && location.pathname !== "/login")
+  //   return <Navigate to="/login" />;
+
+  // Har udkommenteret de to linjer ovenfor, da det gør man ryger til loginpage uanset hvad, hvis man ikke er logged ind.
 
   return (
     <section id="navbar">
@@ -153,7 +159,6 @@ const Navbar = () => {
       </ul>
     </section>
   );
-  
 };
 
 export default Navbar;
