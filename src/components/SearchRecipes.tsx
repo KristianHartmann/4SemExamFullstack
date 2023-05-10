@@ -24,13 +24,18 @@ const SearchRecipes = () => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [index, setIndex] = useState(0);
+  const [noResults, setNoResults] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`)
       .then((response) => response.json())
-      .then((data) => setMeals(data.meals));
+      .then((data) => {
+        setNoResults(!data.meals);
+        setMeals(data.meals || []);
+      })
+      .catch(() => setNoResults(true));
   };
 
   const handleCategorySubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,7 +44,11 @@ const SearchRecipes = () => {
       `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categorySearchText}`
     )
       .then((response) => response.json())
-      .then((data) => setMeals(data.meals));
+      .then((data) => {
+        setNoResults(!data.meals);
+        setMeals(data.meals || []);
+      })
+      .catch(() => setNoResults(true));
   };
 
   useEffect(() => {
@@ -112,6 +121,7 @@ const SearchRecipes = () => {
                   onChange={handleCategoryInputChange}
                   className="w-full p-2.5 text-gray-500  border rounded-md shadow-sm outline-none appearance-none focus:border-black bg-gray-50"
                 >
+                  <option value="Default">Select a category</option>
                   {categories.map((category) => (
                     <option key={category.idCategory}>
                       {category.strCategory}
