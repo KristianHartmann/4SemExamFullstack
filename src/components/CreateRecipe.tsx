@@ -14,6 +14,9 @@ interface TokenPayload {
   email: string;
   role: string;
 }
+interface TokenInput {
+  token: string;
+}
 
 interface RecipeInput {
   mealHeadline: string;
@@ -23,7 +26,7 @@ interface RecipeInput {
   instructions: string;
   mealThumbnail?: string;
   mealVideo?: string;
-  token?: string;
+  token: string;
 }
 
 interface Ingredient {
@@ -57,6 +60,7 @@ const CreateRecipe = (props: CreateRecipeProps) => {
       setRecipeInput({
         ...recipeInput,
         createdBy: decodedJwtToken._id,
+        token: localStorage.getItem("jwtToken") || "",
       });
     }
   }, [decodedJwtToken]);
@@ -112,10 +116,14 @@ const CreateRecipe = (props: CreateRecipeProps) => {
       try {
         const { data } = await createRecipe({
           variables: {
-            input: recipeInput,
+            input: {
+              ...recipeInput,
+              token: { token: recipeInput.token },
+            },
           },
         });
         console.log(data);
+        alert("Recipe created successfully");
       } catch (err) {
         console.log(err);
       }
