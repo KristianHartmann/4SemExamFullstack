@@ -21,6 +21,7 @@ const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const location = useLocation();
   const isLoggedIn = facade.loggedIn();
+  const isAdmin = facade.isAdmin();
 
   const handleLogout = () => {
     facade.logout();
@@ -52,10 +53,11 @@ const Navbar = () => {
       title: "Logout",
       onClick: handleLogout,
     });
-    navLinks.push({
-      id: "createRecipe",
-      title: "Create a Recipe",
-    });
+    if (isAdmin)
+      navLinks.push({
+        id: "createRecipe",
+        title: "Create a Recipe",
+      });
   } else {
     navLinks.push({
       id: "login",
@@ -66,11 +68,6 @@ const Navbar = () => {
       title: "Register",
     });
   }
-
-  // if (!isLoggedIn && location.pathname !== "/login")
-  //   return <Navigate to="/login" />;
-
-  // Har udkommenteret de to linjer ovenfor, da det gør man ryger til loginpage uanset hvad, hvis man ikke er logged ind.
 
   return (
     <section id="navbar">

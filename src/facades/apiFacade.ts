@@ -1,4 +1,12 @@
+import jwt_decode from "jwt-decode";
 export const API_URL = "http://localhost:4000/graphql";
+
+interface TokenPayload {
+  _id: string;
+  email: string;
+  role: string;
+}
+
 
 function handleHttpErrors(res: Response) {
   if (!res.ok) {
@@ -6,6 +14,18 @@ function handleHttpErrors(res: Response) {
   }
   return res.json();
 }
+
+export const decodeToken = () => {
+  const storedJwtToken = localStorage.getItem("jwtToken");
+    console.log("stored: " + storedJwtToken);
+    if (storedJwtToken) {
+      // Parse the jwtToken as a JSON object and set it to the state
+
+      const decodedToken = jwt_decode<TokenPayload>(storedJwtToken);
+      return decodedToken;
+    }
+    return null;
+  }
 
 export const setEmail = (email: string) => {
   localStorage.setItem("email", email);
@@ -38,6 +58,11 @@ function apiFacade() {
     removeEmail();
   };
 
+  const isAdmin = () => {
+    const decodedToken = decodeToken();
+    return decodedToken?.role === "admin";
+  };
+
   const makeOptions = (method: string, addToken: boolean, body?: any) => {
     const headers: any = {
       "Content-Type": "application/json",
@@ -65,6 +90,8 @@ function apiFacade() {
     getToken,
     loggedIn,
     logout,
+    decodeToken,
+    isAdmin,
   };
 }
 

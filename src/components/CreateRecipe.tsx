@@ -2,8 +2,18 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_RECIPE_MUTATION } from "../queries/CreateRecipeMutation";
 import { GET_CATEGORIES_QUERY } from "../queries/GetCategoriesQuery";
+import facade from "../facades/apiFacade";
+import { useEffect } from "react";
+import jwt_decode from "jwt-decode";
+import { Token } from "graphql";
 
 interface CreateRecipeProps {}
+
+interface TokenPayload {
+  _id: string;
+  email: string;
+  role: string;
+}
 
 interface RecipeInput {
   mealHeadline: string;
@@ -13,6 +23,7 @@ interface RecipeInput {
   instructions: string;
   mealThumbnail?: string;
   mealVideo?: string;
+  token?: string;
 }
 
 interface Ingredient {
@@ -27,6 +38,29 @@ const CreateRecipe = (props: CreateRecipeProps) => {
     error: categoriesError,
   } = useQuery(GET_CATEGORIES_QUERY);
 
+  const isAdmin = facade.isAdmin();
+  const [decodedJwtToken, setDecodedJwtToken] = useState<TokenPayload | null>(
+    null
+  );
+
+  useEffect(() => {
+    const decodedToken = facade.decodeToken();
+    setDecodedJwtToken(decodedToken);
+  }, []);
+
+  useEffect(() => {
+    setRecipeInput({
+      ...recipeInput,
+      token: localStorage.getItem("jwtToken") || "",
+    });
+    if (decodedJwtToken) {
+      setRecipeInput({
+        ...recipeInput,
+        createdBy: decodedJwtToken._id,
+      });
+    }
+  }, [decodedJwtToken]);
+
   const [recipeInput, setRecipeInput] = useState<RecipeInput>({
     mealHeadline: "",
     category: categoriesData?.categories[0]?.id || "",
@@ -35,6 +69,7 @@ const CreateRecipe = (props: CreateRecipeProps) => {
     instructions: "",
     mealThumbnail: "",
     mealVideo: "",
+    token: "",
   });
 
   const [
@@ -73,15 +108,19 @@ const CreateRecipe = (props: CreateRecipeProps) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const { data } = await createRecipe({
-        variables: {
-          input: recipeInput,
-        },
-      });
-      console.log(data);
-    } catch (err) {
-      console.log(err);
+    if (isAdmin) {
+      try {
+        const { data } = await createRecipe({
+          variables: {
+            input: recipeInput,
+          },
+        });
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert("You are not authorized to create a recipe");
     }
   };
 
@@ -122,17 +161,6 @@ const CreateRecipe = (props: CreateRecipeProps) => {
           </select>
         </label>
         <label className="flex flex-col">
-          <span className="mb-1">Created By</span>
-          <input
-            type="text"
-            name="createdBy"
-            value={recipeInput.createdBy}
-            onChange={handleInputChange}
-            required
-            className="py-2 px-3 border rounded-md"
-          />
-        </label>
-        <label className="flex flex-col">
           <span className="mb-1">Ingredients</span>
           {recipeInput.ingredients.map(
             (ingredient: Ingredient, index: number) => (
@@ -140,17 +168,17 @@ const CreateRecipe = (props: CreateRecipeProps) => {
                 <input
                   type="text"
                   name="name"
+                  placeholder="Name"
                   value={ingredient.name}
                   onChange={(event) => handleIngredientChange(event, index)}
-                  required
                   className="py-2 px-3 border rounded-md"
                 />
                 <input
                   type="text"
                   name="measure"
+                  placeholder="Amount"
                   value={ingredient.measure}
                   onChange={(event) => handleIngredientChange(event, index)}
-                  required
                   className="py-2 px-3 border rounded-md"
                 />
               </div>
@@ -161,7 +189,7 @@ const CreateRecipe = (props: CreateRecipeProps) => {
             onClick={handleAddIngredient}
             className="mt-2 py-2 px-3 bg-blue-500 text-white rounded-md"
           >
-            Add Ingredient
+            Add Another Ingredient
           </button>
         </label>
         <label className="flex flex-col">
@@ -180,6 +208,16 @@ const CreateRecipe = (props: CreateRecipeProps) => {
             type="text"
             name="mealThumbnail"
             value={recipeInput.mealThumbnail}
+            onChange={handleInputChange}
+            className="py-2 px-3 border rounded-md"
+          />
+        </label>
+        <label className="flex flex-col">
+          <span className="mb-1">Video URL</span>
+          <input
+            type="text"
+            name="mealVideo"
+            value={recipeInput.mealVideo}
             onChange={handleInputChange}
             className="py-2 px-3 border rounded-md"
           />
