@@ -18,7 +18,7 @@ import {
 } from "@apollo/client";
 
 export const client = new ApolloClient({
-  uri: "kiah.dk/sem4exam",
+  uri: "https://kiah.dk/sem4exam/",
   cache: new InMemoryCache(),
 });
 
