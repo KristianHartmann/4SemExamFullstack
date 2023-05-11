@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useQuery, ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import { GetRecipe } from "../queries/GetRecipe";
 import mongoose from "mongoose";
+import { Review } from "../types/types";
 
 const Recipe = ({
   client,
@@ -88,19 +89,6 @@ const Recipe = ({
             <h3 className="text-xl font-bold mb-2">Made by:</h3>
             <p className="whitespace-pre-wrap">{recipe?.createdBy?.email}</p>
           </div>
-          {recipe?.reviews && (
-            <div className="mt-4">
-              <h3 className="text-xl font-bold mb-2">Reviews:</h3>
-              <ul>
-                {recipe.reviews.map((review: any) => (
-                  <li key={review.id}>
-                    <p className="font-bold">{review.author}</p>
-                    <p>{review.comment}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
 
           {recipe?.mealVideo && (
             <div className="mt-4">
@@ -118,8 +106,24 @@ const Recipe = ({
               />
             </div>
           )}
+          {recipe?.reviews && (
+            <div className="mt-4">
+              <h3 className="text-xl font-bold mb-2">Reviews:</h3>
+              <ul>
+                {recipe.reviews.map((review: Review) => (
+                  <li key={review.id}>
+                    <p className="font-bold">{review.createdBy.email}</p>
+                    <p>
+                      {review.rating}/5 - {review.comment}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
+      <div className="w-full md:w-2/3 lg:w-1/2 mx-auto rounded-lg shadow-lg overflow-hidden  bg-white">  <p className="font-bold">Do you want to create a Review?</p> <button> Click here</button></div>
     </div>
   );
 };

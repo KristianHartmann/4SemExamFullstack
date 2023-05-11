@@ -19,9 +19,9 @@ type NavLink = {
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
-  const location = useLocation();
   const isLoggedIn = facade.loggedIn();
   const isAdmin = facade.isAdmin();
+  const email = facade.getUserEmail();
 
   const handleLogout = () => {
     facade.logout();
@@ -76,8 +76,11 @@ const Navbar = () => {
           <Link to="/">
             <img className="h-full" alt="MonkeyLogo" src={monkeyLogo}></img>
           </Link>
+          <div className="hidden sm:flex items-center">{`Welcome ${email}`}</div>
         </div>
+        
         <ul className="list-none sm:flex hidden justify-end items-center flex-1">
+        
           {navLinks.map(({ id, title, onClick }, index) => (
             <li
               key={id}
@@ -118,6 +121,7 @@ const Navbar = () => {
             />
           </button>
         </div>
+        
       </div>
       <ul
         className={`${
@@ -154,6 +158,7 @@ const Navbar = () => {
           </li>
         ))}
       </ul>
+    
     </section>
   );
 };

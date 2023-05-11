@@ -63,6 +63,16 @@ function apiFacade() {
     return decodedToken?.role === "admin";
   };
 
+  const getUserEmail = () => {
+    const decodedToken = decodeToken();
+    return decodedToken?.email;
+  }
+
+  const getUserId = () => {
+    const decodedToken = decodeToken();
+    return decodedToken?._id;
+  }
+
   const makeOptions = (method: string, addToken: boolean, body?: any) => {
     const headers: any = {
       "Content-Type": "application/json",
@@ -92,6 +102,7 @@ function apiFacade() {
     logout,
     decodeToken,
     isAdmin,
+    getUserEmail
   };
 }
 
