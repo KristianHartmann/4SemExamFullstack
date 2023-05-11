@@ -18,7 +18,7 @@ import {
 } from "@apollo/client";
 
 export const client = new ApolloClient({
-  uri: "kiah.dk/sem4exam",
+  uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
 });
 
