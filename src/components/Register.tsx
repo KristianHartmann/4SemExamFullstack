@@ -1,44 +1,34 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-// import API_URL from "../facades/apiFacade";
 import facade, { API_URL } from "../facades/apiFacade";
+import { RegisterMutation } from "../queries/RegisterMutation";
+import { useMutation } from "@apollo/client";
 
-function Register() {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const testRegister = async (event: any) => {
-    event.preventDefault();
-    if (!email.includes("@")) {
-      setMessage("Please enter a valid email address");
-      return;
-    }
-    console.log("testLogin ", password, email);
-  };
+  const [createUser] = useMutation(RegisterMutation);
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!email.includes("@")) {
-      setMessage("Please enter a valid email address");
-      return;
-    }
+
     try {
-      const response = await fetch(API_URL + "/api/user/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+      const { data } = await createUser({
+        variables: {
+          input: {
+            email,
+            password,
+          },
+        },
       });
-      if (response.ok) {
-        setMessage("You were successfully registered");
-        setEmail("");
-        setPassword("");
-      } else {
-        const error = await response.json();
-        console.error(error.message);
-      }
-    } catch (error) {
-      console.error(error);
+
+      setMessage(`User with email ${data.createUser.email} created!`);
+      setEmail("");
+      setPassword("");
+    } catch (error: any) {
+      setMessage(error?.message || "An error occurred");
     }
   };
 
@@ -46,7 +36,7 @@ function Register() {
     <div className="flex flex-col items-center  min-h-screen">
       <h2 className="text-2xl font-bold mb-4">Register</h2>
       <form
-        onSubmit={testRegister}
+        onSubmit={handleSubmit}
         className="flex flex-col items-center gap-4"
       >
         <div className="flex flex-col items-start w-full">
@@ -94,11 +84,11 @@ function Register() {
         </div>
 
         {message && (
-          <div className="mt-6 text-center text-red-500">{message}</div>
+          <div className="mt-6 text-center text-blue-500">{message}</div>
         )}
       </form>
     </div>
   );
-}
+};
 
 export default Register;

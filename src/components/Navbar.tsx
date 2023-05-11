@@ -38,16 +38,16 @@ const Navbar = () => {
       title: "SearchRecipes",
     },
     {
-      id: "savedrecipes",
-      title: "Saved Recipes",
-    },
-    {
       id: "shoppinglist",
       title: "Shoppinglist",
     },
   ];
 
   if (isLoggedIn) {
+    navLinks.push({
+      id: "savedrecipes",
+      title: "Saved Recipes",
+    });
     navLinks.push({
       id: "logout",
       title: "Logout",
