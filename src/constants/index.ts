@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import facade from "../facades/apiFacade";
 
-export const DualHeroBannerText = [
+export const FrontBannerText = [
   {
     id: "FrontBannerText",
     heading: "Welcome!",
@@ -12,6 +12,7 @@ export const DualHeroBannerText = [
     linkText: "See the hottest recipes here",
   },
 ];
+
 export const SearchRecipesText = [
   {
     id: "SearchRecipesText",
