@@ -18,13 +18,11 @@ import {
 } from "@apollo/client";
 
 export const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: "kiah.dk/sem4exam",
   cache: new InMemoryCache(),
 });
 
 const App: React.FC = () => {
-
-
   return (
     <ApolloProvider client={client}>
       <BrowserRouter>
