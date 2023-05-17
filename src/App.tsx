@@ -16,9 +16,11 @@ import {
   ApolloProvider,
   gql,
 } from "@apollo/client";
+import MyRecipes from "./components/MyRecipes";
 
 export const client = new ApolloClient({
-  uri: "https://kiah.dk/sem4exam/",
+  // uri: "https://kiah.dk/sem4exam/",
+  uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
 });
 
@@ -41,6 +43,10 @@ const App: React.FC = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login client={client} />} />
               <Route path="/createRecipe" element={<CreateRecipe />} />
+              <Route
+                path="/myrecipes"
+                element={<MyRecipes client={client} />}
+              />
             </Routes>
           </div>
           <Footer />

@@ -100,7 +100,8 @@ function apiFacade() {
     logout,
     decodeToken,
     isAdmin,
-    getUserEmail
+    getUserEmail,
+    getUserId
   };
 }
 
