@@ -22,6 +22,7 @@ const Navbar = () => {
   const location = useLocation();
   const isLoggedIn = facade.loggedIn();
   const isAdmin = facade.isAdmin();
+  const email = facade.getUserEmail();
 
   const handleLogout = () => {
     facade.logout();
@@ -72,10 +73,14 @@ const Navbar = () => {
   return (
     <section id="navbar">
       <div className="text-white flex justify-between sm:px-16 px-6 items-center bg-tertiary navbar w-full relative z-10">
+        
         <div className="flex gap-10 h-16 ml-4 sm:ml-0">
           <Link to="/">
             <img className="h-full" alt="MonkeyLogo" src={monkeyLogo}></img>
           </Link>
+          {email && (
+          <div className="hidden sm:flex items-center">{`Welcome ${email}`}</div>
+          )}
         </div>
         <ul className="list-none sm:flex hidden justify-end items-center flex-1">
           {navLinks.map(({ id, title, onClick }, index) => (
