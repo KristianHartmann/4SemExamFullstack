@@ -37,6 +37,16 @@ const RandomMealList = ({
         }
       }
       const result = await client.query(GetAllRecipes);
+      let randomRecipes = result.data.recipes.slice(0);
+      for (let i = randomRecipes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [randomRecipes[i], randomRecipes[j]] = [
+          randomRecipes[j],
+          randomRecipes[i],
+        ];
+      }
+      randomRecipes = randomRecipes.slice(0, 6);
+
       console.log(result);
       // const responses = await Promise.all(
       //   Array.from({ length: 6 }, () =>
@@ -59,7 +69,7 @@ const RandomMealList = ({
       //   responses.map((response) => response.json())
       // );
 
-      setMeals(result.data.recipes);
+      setMeals(randomRecipes);
       localStorage.setItem("meals", JSON.stringify(result.data.recipes));
       localStorage.setItem("time", new Date().getTime().toString());
     };
@@ -82,7 +92,8 @@ const RandomMealList = ({
             className={`bg-white rounded-lg shadow-md flex flex-col items-center ${
               index >= 3 ? "hidden md:block" : ""
             }`}
-            onClick={() => handleMealClick(meal.id)}>
+            onClick={() => handleMealClick(meal.id)}
+          >
             <img
               src={meal.mealThumbnail}
               alt={meal.mealHeadline}
