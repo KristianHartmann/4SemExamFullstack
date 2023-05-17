@@ -19,6 +19,7 @@ const GetRecipe = gql`
       }
       reviews {
         comment
+        rating
         createdBy {
           email
         }

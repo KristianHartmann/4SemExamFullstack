@@ -92,7 +92,8 @@ const RandomMealList = ({
             className={`bg-white rounded-lg shadow-md flex flex-col items-center ${
               index >= 3 ? "hidden md:block" : ""
             }`}
-            onClick={() => handleMealClick(meal.id)}>
+            onClick={() => handleMealClick(meal.id)}
+          >
             <img
               src={meal.mealThumbnail}
               alt={meal.mealHeadline}
