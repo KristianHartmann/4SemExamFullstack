@@ -12,6 +12,18 @@ import { create } from "domain";
 import facade from "../facades/apiFacade";
 interface CreateReviewProps {}
 
+interface Review {
+  comment: string;
+  createdBy: {
+    email: string;
+  };
+  id: string;
+  rating: number;
+  recipe: {
+    mealHeadline: string;
+  };
+}
+
 interface ReviewInput {
   comment: string;
   rating: number;
@@ -159,14 +171,21 @@ const Recipe = ({
           </div>
           {recipe?.reviews && (
             <div className="mt-4">
-              <h3 className="text-xl font-bold mb-2">Reviews:</h3>
               <ul>
-                {recipe.reviews.map((review: any) => (
-                  <li key={review.id}>
-                    <p className="font-bold">{review.author}</p>
-                    <p>{review.comment}</p>
-                  </li>
-                ))}
+                {recipe?.reviews && (
+                  <div className="mt-4">
+                    <h3 className="text-xl font-bold mb-2">Reviews:</h3>
+                    <ul>
+                      {recipe.reviews.map((review: Review) => (
+                        <li className="mb-5" key={review.id}>
+                          <p> By: {review.createdBy.email}</p>
+                          <p>rating: {review.rating}/5</p>
+                          <p>comment: {review.comment}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </ul>
             </div>
           )}
