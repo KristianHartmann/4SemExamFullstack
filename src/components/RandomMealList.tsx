@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useQuery, ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import "../styles/SearchRecipes.css";
 import GetAllRecipes from "../queries/GetAllRecipes";
+
 interface Meal {
   id: string;
   mealThumbnail: string;
@@ -36,6 +37,7 @@ const RandomMealList = ({
           return;
         }
       }
+
       const result = await client.query(GetAllRecipes);
       let randomRecipes = result.data.recipes.slice(0);
       for (let i = randomRecipes.length - 1; i > 0; i--) {
@@ -46,31 +48,8 @@ const RandomMealList = ({
         ];
       }
       randomRecipes = randomRecipes.slice(0, 6);
-
-      console.log(result);
-      // const responses = await Promise.all(
-      //   Array.from({ length: 6 }, () =>
-      //     fetch("https://www.themealdb.com/api/json/v1/1/random.php")
-      //   )
-      // );
-
-      // for (let i = 0; i < responses.length; i++) {
-      //   for (let j = i + 1; j < responses.length; j++) {
-      //     if (JSON.stringify(responses[i]) === JSON.stringify(responses[j])) {
-      //       const newResponse = await fetch(
-      //         "https://www.themealdb.com/api/json/v1/1/random.php"
-      //       );
-      //       responses[j] = newResponse;
-      //     }
-      //   }
-      // }
-
-      // const data = await Promise.all(
-      //   responses.map((response) => response.json())
-      // );
-
       setMeals(randomRecipes);
-      localStorage.setItem("meals", JSON.stringify(result.data.recipes));
+      localStorage.setItem("meals", JSON.stringify(randomRecipes));
       localStorage.setItem("time", new Date().getTime().toString());
     };
 
@@ -80,15 +59,16 @@ const RandomMealList = ({
   const handleMealClick = (id: string) => {
     navigate(`/recipe?id=${id}`);
   };
+
   return (
     <div className="flex flex-col justify-center items-center mb-10 cursor-pointer">
       <h2 className="heading1 text-2xl font-bold text-center SearchRecipesHeading mb-10 mt-10">
-        Check out some the latest and coolest recipes!
+        Check out some of the latest and coolest recipes!
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-3/4">
         {meals.map((meal, index) => (
           <div
-            key={meal.mealHeadline}
+            key={meal.id}
             className={`bg-white rounded-lg shadow-md flex flex-col items-center ${
               index >= 3 ? "hidden md:block" : ""
             }`}
@@ -97,7 +77,7 @@ const RandomMealList = ({
             <img
               src={meal.mealThumbnail}
               alt={meal.mealHeadline}
-              className="rounded-t-lg w-full"
+              className="rounded-t-lg w-full max-h-96 object-cover"
             />
             <div className="p-4">
               <div className="text-lg font-bold mb-2">{meal.mealHeadline}</div>
