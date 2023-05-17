@@ -7,7 +7,6 @@ interface TokenPayload {
   role: string;
 }
 
-
 function handleHttpErrors(res: Response) {
   if (!res.ok) {
     return Promise.reject({ status: res.status, fullError: res.json() });
@@ -17,15 +16,14 @@ function handleHttpErrors(res: Response) {
 
 export const decodeToken = () => {
   const storedJwtToken = localStorage.getItem("jwtToken");
-    console.log("stored: " + storedJwtToken);
-    if (storedJwtToken) {
-      // Parse the jwtToken as a JSON object and set it to the state
+  if (storedJwtToken) {
+    // Parse the jwtToken as a JSON object and set it to the state
 
-      const decodedToken = jwt_decode<TokenPayload>(storedJwtToken);
-      return decodedToken;
-    }
-    return null;
+    const decodedToken = jwt_decode<TokenPayload>(storedJwtToken);
+    return decodedToken;
   }
+  return null;
+};
 
 export const setEmail = (email: string) => {
   localStorage.setItem("email", email);
