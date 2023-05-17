@@ -103,7 +103,6 @@ const Recipe = ({
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
     if (decodedJwtToken != null) {
       try {
         const { data } = await createReview({
@@ -111,9 +110,14 @@ const Recipe = ({
             input: {
               ...reviewInput,
             },
+            setReviewInput: {
+              comment: "",
+              rating: 1,
+            },
           },
         });
         alert("Review created successfully");
+        window.location.reload();
       } catch (err) {
         console.log(err);
       }
