@@ -4,6 +4,7 @@ const GetRecipesByUserID = gql`
   query User($userId: ID!) {
     user(id: $userId) {
       recipes {
+        id
         mealHeadline
         category {
           category
