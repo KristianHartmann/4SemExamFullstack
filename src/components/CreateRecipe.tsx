@@ -6,7 +6,7 @@ import facade from "../facades/apiFacade";
 import { useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { Token } from "graphql";
-
+import { GetRecipesByUserID } from "../queries/GetRecipesByUserID";
 interface CreateRecipeProps {}
 
 interface TokenPayload {
@@ -111,7 +111,6 @@ const CreateRecipe = (props: CreateRecipeProps) => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
     if (isAdmin) {
       try {
         const { data } = await createRecipe({
@@ -123,6 +122,7 @@ const CreateRecipe = (props: CreateRecipeProps) => {
           },
         });
         console.log(data);
+        window.location.reload();
         alert("Recipe created successfully");
       } catch (err) {
         console.log(err);
