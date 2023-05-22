@@ -19,8 +19,8 @@ import {
 import MyRecipes from "./components/MyRecipes";
 
 export const client = new ApolloClient({
-  // uri: "https://kiah.dk/sem4exam/",
-  uri: "http://localhost:4000/graphql",
+  uri: "https://kiah.dk/sem4exam/",
+  // uri: "http://localhost:4000/graphql"
   cache: new InMemoryCache(),
 });
 
