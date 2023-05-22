@@ -10,12 +10,7 @@ import {
 import monkeyLogo from "../images/monkeyLogo.png";
 import facade from "../facades/apiFacade";
 import "../styles/Navbar.css";
-
-type NavLink = {
-  id: string;
-  title: string;
-  onClick?: () => void;
-};
+import { NavLink } from "../types/types";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);

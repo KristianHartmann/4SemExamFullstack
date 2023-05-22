@@ -8,31 +8,7 @@ import jwt_decode from "jwt-decode";
 import { Token } from "graphql";
 import { GetRecipesByUserID } from "../queries/GetRecipesByUserID";
 interface CreateRecipeProps {}
-
-interface TokenPayload {
-  _id: string;
-  email: string;
-  role: string;
-}
-interface TokenInput {
-  token: string;
-}
-
-interface RecipeInput {
-  mealHeadline: string;
-  category: string;
-  createdBy: string;
-  ingredients: { name: string; measure: string }[];
-  instructions: string;
-  mealThumbnail?: string;
-  mealVideo?: string;
-  token: string;
-}
-
-interface Ingredient {
-  name: string;
-  measure: string;
-}
+import { TokenPayload, TokenInput, RecipeInput, Ingredient } from "../types/types";
 
 const CreateRecipe = (props: CreateRecipeProps) => {
   const {
