@@ -6,21 +6,7 @@ import {
 } from "@apollo/client";
 import { LoginMutation } from "../queries/LoginMutation";
 import { Navigate, redirect, useNavigate } from "react-router-dom";
-
-interface LoginInput {
-  email: string;
-  password: string;
-}
-
-interface LoginData {
-  login: {
-    token: string;
-  };
-}
-
-interface LoginVariables {
-  input: LoginInput;
-}
+import { LoginInput, LoginData, LoginVariables } from "../types/types";
 
 const Login = ({ client }: { client: ApolloClient<NormalizedCacheObject> }) => {
   const [email, setEmail] = useState("");

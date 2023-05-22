@@ -3,15 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useQuery, ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import "../styles/SearchRecipes.css";
 import GetAllRecipes from "../queries/GetAllRecipes";
+import { Meal } from "../types/types";
 
-interface Meal {
-  id: string;
-  mealThumbnail: string;
-  mealHeadline: string;
-  category: {
-    category: string;
-  };
-}
 
 const RandomMealList = ({
   client,

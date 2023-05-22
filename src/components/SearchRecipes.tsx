@@ -4,19 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import ThumbnailNotFound from "../images/404ThumbnailNotFound.jpg";
+import { TheMealDb as Meal, Category } from "../types/types";
 
-interface Meal {
-  idMeal: string;
-  strMealThumb: string;
-  strMeal: string;
-  strCategory: string;
-  strTags: string;
-}
-
-interface Category {
-  idCategory: string;
-  strCategory: string;
-}
 
 const SearchRecipes = () => {
   const [searchText, setSearchText] = useState("");

@@ -10,31 +10,9 @@ import { GetRecipe } from "../queries/GetRecipe";
 import { CREATE_REVIEW_MUTATION } from "../queries/CreateReview";
 import { create } from "domain";
 import facade from "../facades/apiFacade";
+import { Review, ReviewInput, TokenPayload } from "../types/types";
 interface CreateReviewProps {}
 
-interface Review {
-  comment: string;
-  createdBy: {
-    email: string;
-  };
-  id: string;
-  rating: number;
-  recipe: {
-    mealHeadline: string;
-  };
-}
-
-interface ReviewInput {
-  comment: string;
-  rating: number;
-  createdBy: string;
-  recipe: string;
-}
-interface TokenPayload {
-  _id: string;
-  email: string;
-  role: string;
-}
 const Recipe = ({
   client,
 }: {
@@ -43,6 +21,7 @@ const Recipe = ({
   const { search } = useLocation();
   const recipeId = new URLSearchParams(search).get("id") as string;
   const [recipe, setRecipe] = useState<any>(null);
+  const [averageRating, setAverageRating] = useState<number>(0);
 
   const [
     createReview,
@@ -75,13 +54,17 @@ const Recipe = ({
         query: GetRecipe,
         variables: { recipeId: recipeId },
       });
-
-      //   const response = await fetch(
-      //     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
-      //   );
-      //   const data = await response.json();
-      //   setRecipe(data.meals[0]);
-      // };
+      const reviews = result.data.recipe.reviews;
+      if (reviews.length > 0) {
+        const totalRating = reviews.reduce(
+          (sum: number, review: Review) => sum + review.rating,
+          0
+        );
+        const average = totalRating / reviews.length;
+        setAverageRating(average);
+      } else {
+        setAverageRating(0);
+      }
       setRecipe(result.data.recipe);
     };
     fetchRecipe();
@@ -154,6 +137,10 @@ const Recipe = ({
         />
         <div className="p-4">
           <h2 className="text-2xl font-bold mb-2">{recipe?.mealHeadline}</h2>
+          <h2 className="text-2xl mb-2">
+            Average Rating: {averageRating.toFixed(1)}/5
+          </h2>
+          <h2 className="text-xl font-bold mt-2">Ingredients: </h2>
           <div className="flex flex-wrap">
             {recipe.ingredients.map((ingredient: any, index: number) => (
               <div key={index} className="w-1/2">
