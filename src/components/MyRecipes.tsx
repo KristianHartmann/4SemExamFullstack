@@ -7,24 +7,30 @@ import {
 } from "@apollo/client";
 import { GetRecipesByUserID } from "../queries/GetRecipesByUserID";
 import { DeleteRecipeById } from "../queries/DeleteRecipeByID";
+import { EditRecipeById } from "../queries/EditRecipeById";
 import facade from "../facades/apiFacade";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+interface Category {
+  category: string;
+}
+
+interface Ingredient {
+  name: string;
+  measure: string;
+}
 
 interface RecipeData {
   id: string;
   mealThumbnail: string;
   mealHeadline: string;
-  category: {
-    category: string;
-  };
+  category: Category;
   instructions: string;
-  ingredients: {
-    name: string;
-    measure: string;
-  };
+  ingredients: Ingredient[];
   mealVideo: string;
 }
+
 interface DeleteRecipeInput {
   input: {
     token: {
@@ -34,23 +40,43 @@ interface DeleteRecipeInput {
   };
 }
 
+interface EditRecipeInput {
+  input: {
+    token: {
+      token: string;
+    };
+    id: string;
+    mealHeadline?: string;
+    mealVideo?: string;
+    mealThumbnail?: string;
+    instructions?: string;
+    ingredients?: Ingredient[];
+  };
+}
+
 const MyRecipes = ({
   client,
 }: {
   client: ApolloClient<NormalizedCacheObject>;
 }) => {
   const [recipeList, setRecipeList] = useState<RecipeData[]>([]);
-  const [recipeData, setRecipeData] = useState<RecipeData>();
+  const [recipeData, setRecipeData] = useState<RecipeData | undefined>();
+  const [editRecipeData, setEditRecipeData] = useState<
+    EditRecipeInput | undefined
+  >();
   const userID = facade.getUserId();
-  const [deleteRecipe, { loading, error }] = useMutation<DeleteRecipeInput>(
-    DeleteRecipeById,
-    {
-      onCompleted: () => {
-        // Refetch the recipes after successful deletion
-        refetchRecipes();
-      },
-    }
-  );
+  const [deleteRecipe, {}] = useMutation<DeleteRecipeInput>(DeleteRecipeById, {
+    onCompleted: () => {
+      // Refetch the recipes after successful deletion
+      refetchRecipes();
+    },
+  });
+  const [editRecipe, {}] = useMutation<RecipeData>(EditRecipeById, {
+    onCompleted: () => {
+      // Refetch the recipes after successful update
+      refetchRecipes();
+    },
+  });
 
   const refetchRecipes = async () => {
     const result = await client.query({
@@ -75,12 +101,38 @@ const MyRecipes = ({
   }, [client]);
 
   const handleRecipeClick = async (recipe: RecipeData) => {
-    console.log("pre: " + recipe);
-    console.log("pre: " + recipe.id);
-    console.log("pre: " + recipe.instructions);
     await setRecipeData(recipe);
   };
-  const handleEdit = async (recipe: RecipeData) => {};
+
+  const handleEdit = async (recipe: EditRecipeInput) => {
+    try {
+      const updatedRecipe: RecipeData = {
+        id: recipe.input.id,
+        mealHeadline:
+          recipe.input.mealHeadline || recipeData?.mealHeadline || "",
+        mealVideo: recipe.input.mealVideo || recipeData?.mealVideo || "",
+        mealThumbnail:
+          recipe.input.mealThumbnail || recipeData?.mealThumbnail || "",
+        instructions:
+          recipe.input.instructions || recipeData?.instructions || "",
+        ingredients: recipe.input.ingredients || recipeData?.ingredients || [],
+        category: recipeData?.category || { category: "" },
+      };
+      await editRecipe({
+        variables: {
+          input: {
+            token: {
+              token: facade.getToken(),
+            },
+            ...updatedRecipe,
+          },
+        },
+      });
+    } catch (error) {
+      // Handle any error that occurs during the mutation
+      console.log(error);
+    }
+  };
 
   const handleDeleteRecipe = async (recipe: RecipeData) => {
     console.log("delete recipe:", recipe);
@@ -147,7 +199,13 @@ const MyRecipes = ({
                 <input
                   type="text"
                   className="border border-gray-300 rounded py-2 px-3"
-                  value={recipeData.mealHeadline}
+                  value={recipeData?.mealHeadline || ""}
+                  onChange={(e) =>
+                    setRecipeData((prevData: any) => ({
+                      ...prevData,
+                      mealHeadline: e.target.value,
+                    }))
+                  }
                 />
               </div>
               <div className="mb-4">
@@ -173,22 +231,26 @@ const MyRecipes = ({
                   value={recipeData.mealThumbnail}
                 />
               </div>
-              <div className="mb-4">
-                <label className="font-bold">Ingredients Name:</label>
-                <input
-                  type="text"
-                  className="border border-gray-300 rounded py-2 px-3"
-                  value={recipeData.ingredients.name}
-                />
-              </div>
-              <div className="mb-4">
-                <label className="font-bold">Ingredients Measure:</label>
-                <input
-                  type="text"
-                  className="border border-gray-300 rounded py-2 px-3"
-                  value={recipeData.ingredients.measure}
-                />
-              </div>
+              {recipeData.ingredients &&
+                Array.isArray(recipeData.ingredients) &&
+                recipeData.ingredients.map(
+                  (ingredient: Ingredient, index: number) => (
+                    <div key={index} className="mb-4">
+                      <label className="font-bold">Ingredient Name:</label>
+                      <input
+                        type="text"
+                        className="border border-gray-300 rounded py-2 px-3"
+                        value={ingredient.name}
+                      />
+                      <label className="font-bold">Ingredient Measure:</label>
+                      <input
+                        type="text"
+                        className="border border-gray-300 rounded py-2 px-3"
+                        value={ingredient.measure}
+                      />
+                    </div>
+                  )
+                )}
               <div className="mb-4">
                 <label className="font-bold">Meal Video:</label>
                 <input
@@ -199,7 +261,12 @@ const MyRecipes = ({
               </div>
             </div>
           )}
-          <button className="btn-primary justify-center scale-75">Edit</button>
+          <button
+            onClick={() => handleEdit(recipeData)}
+            className="btn-primary justify-center scale-75"
+          >
+            Edit
+          </button>
         </div>
       </form>
     </div>
